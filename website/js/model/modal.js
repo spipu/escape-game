@@ -10,6 +10,7 @@ class Modal {
     /** @type {Position}    */ position;
     /** @type {Sprite}      */ sprite;
     /** @type {Button[]}    */ buttons;
+    /** @type {string}      */ modalBodyClass;
 
     /**
      * @param {string} image
@@ -27,6 +28,7 @@ class Modal {
         this.overlay = null;
         this.sprite = null;
         this.buttons = [];
+        this.modalBodyClass = 'modal-body';
     }
 
     /**
@@ -93,7 +95,7 @@ class Modal {
         display.resource.applyImage(this.sprite.htmlTag, this.image);
         this.sprite.htmlTag.css('font-weight', 'bold');
         this.sprite.htmlTag.append($('<div class="modal-title"></div>').text(this.title));
-        this.sprite.htmlTag.append($('<div class="modal-body"></div>').append($('<div class="modal-content"></div>').html(this.message)));
+        this.sprite.htmlTag.append($('<div class="' + this.modalBodyClass + '"></div>').append($('<div class="modal-content"></div>').html(this.message)));
         display.addSprite(this.sprite);
 
         if (this.imageClose) {

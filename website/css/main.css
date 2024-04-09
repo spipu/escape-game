@@ -140,6 +140,7 @@ body {
     justify-content:center;
     font-size: 150%;
 }
+
 #screen .modal .modal-body {
     overflow: hidden;
     width: 90%;
@@ -149,6 +150,10 @@ body {
     margin: auto;
     align-items:center;
     justify-content:center;
+}
+
+#screen .modal .modal-body-big {
+    height: 75%;
 }
 
 #screen .modal .modal-body.modal-score {
@@ -167,6 +172,7 @@ body {
 
 #screen .modal .modal-body.modal-score th {
     width: 20%;
+    text-align: center;
 }
 
 #screen .modal .modal-body.modal-score td {

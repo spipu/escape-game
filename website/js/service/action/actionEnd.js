@@ -56,7 +56,10 @@ class ActionEnd extends AbstractAction {
         }
 
         let time = (this.scenario.timer.duration - this.state.currentTime);
+        let score = this.calculateScore();
+
         let text = '<table>';
+        text += '<tr><th>#ICON[fa-solid   fa-star]        </th><td>' + score + " %</td></tr>";
         text += '<tr><th>#ICON[fa-solid   fa-stopwatch]   </th><td>' + this.display.timer.convertToText(time) + "</td></tr>";
         text += '<tr><th>#ICON[fa-regular fa-lightbulb]   </th><td>' + this.state.nbHelp + "</td></tr>";
         text += '<tr><th>#ICON[fa-solid   fa-skull red]   </th><td>' + this.display.timer.convertToText(this.state.penaltyTime) + " (" + this.state.nbPenalty + ")</td></tr>";
@@ -80,6 +83,15 @@ class ActionEnd extends AbstractAction {
         modal.open(this.display);
         modal.sprite.htmlTag.find('.modal-body').addClass('modal-score');
         modal.overlay.hide();
+    }
+
+    /**
+     * @return {int}
+     */
+    calculateScore() {
+        let score = 50;
+
+        return score;
     }
 
     closeScore() {
