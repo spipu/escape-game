@@ -151,6 +151,9 @@ class GameDisplay {
      */
     showButton(button) {
         button.htmlTag.show();
+        if (button.labelTag) {
+            button.labelTag.show();
+        }
     }
 
     /**
@@ -158,6 +161,9 @@ class GameDisplay {
      */
     hideButton(button) {
         button.htmlTag.hide();
+        if (button.labelTag) {
+            button.labelTag.hide();
+        }
     }
 
     /**

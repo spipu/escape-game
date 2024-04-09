@@ -63,15 +63,21 @@ class Timer {
             return;
         }
 
-        let time = state.currentTime;
+        let text = this.convertToText(state.currentTime);
+        this.sprite.htmlTag.text(text);
+    }
+
+    /**
+     * @param {int} time
+     * @return {string}
+     */
+    convertToText(time) {
         if (time < 0) {
             time = -time;
         }
         let sec = (time % 60);
         let min = (time - sec) / 60;
-        let text = (min < 10 ? '0' : '') + min + ':' + (sec < 10 ? '0' : '') + sec;
-
-        this.sprite.htmlTag.text(text);
+        return (min < 10 ? '0' : '') + min + ':' + (sec < 10 ? '0' : '') + sec;
     }
 
     /**

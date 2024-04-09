@@ -151,6 +151,36 @@ body {
     justify-content:center;
 }
 
+#screen .modal .modal-body.modal-score {
+    text-align: left;
+    justify-content:left;
+    font-size: 150%;
+}
+
+#screen .modal .modal-body.modal-score .modal-content {
+    width: 100%;
+}
+
+#screen .modal .modal-body.modal-score table {
+    width: 100%;
+}
+
+#screen .modal .modal-body.modal-score th {
+    width: 20%;
+}
+
+#screen .modal .modal-body.modal-score td {
+    width: 80%;
+}
+
+#screen .modal .modal-body.modal-score th i.red {
+    color: darkred;
+}
+
+#screen .modal .modal-body.modal-score th i.green {
+    color: darkgreen;
+}
+
 #screen .modal .modal-content {
     display: block;
 }

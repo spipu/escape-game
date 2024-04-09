@@ -13,7 +13,13 @@ class ActionEnd extends AbstractAction {
         modal.addConfirmAction(
             new Action(
                 'Fermer',
-                $.proxy(this.showScore, this),
+                $.proxy(
+                    function () {
+                        modal.close(this.display);
+                        this.showScore();
+                    },
+                    this
+                ),
                 '#DDD',
                 '#333',
                 'fa-solid fa-xmark'
@@ -28,16 +34,55 @@ class ActionEnd extends AbstractAction {
         this.state.stop();
 
         this.display.hideButton(this.scenario.buttonPause);
-        this.display.showButton(this.scenario.buttonPlay);
-        this.display.disableButton(this.scenario.buttonPlay);
-        this.display.disableButton(this.scenario.buttonCode);
-        this.display.disableButton(this.scenario.buttonHelp);
-        this.display.disableButton(this.scenario.buttonMachine);
-        this.display.disableButton(this.scenario.buttonPenalty);
+        this.display.hideButton(this.scenario.buttonPlay);
+        this.display.hideButton(this.scenario.buttonPlay);
+        this.display.hideButton(this.scenario.buttonCode);
+        this.display.hideButton(this.scenario.buttonHelp);
+        this.display.hideButton(this.scenario.buttonMachine);
+        this.display.hideButton(this.scenario.buttonPenalty);
+        this.display.hideButton(this.scenario.buttonClose);
+        this.display.hideButton(this.scenario.buttonParameters);
     }
 
     showScore() {
         this.display.resource.stopMusic();
+
+        let title = '';
+        if (this.state.isEndSuccess) {
+            title = "Vous avez réussit !\n";
+        }
+        if (this.state.isEndFail) {
+            title = "Vous avez échoué...\n";
+        }
+
+        let time = (this.scenario.timer.duration - this.state.currentTime);
+        let text = '<table>';
+        text += '<tr><th>#ICON[fa-solid   fa-stopwatch]   </th><td>' + this.display.timer.convertToText(time) + "</td></tr>";
+        text += '<tr><th>#ICON[fa-regular fa-lightbulb]   </th><td>' + this.state.nbHelp + "</td></tr>";
+        text += '<tr><th>#ICON[fa-solid   fa-skull red]   </th><td>' + this.display.timer.convertToText(this.state.penaltyTime) + " (" + this.state.nbPenalty + ")</td></tr>";
+        text += '<tr><th>#ICON[fa-solid   fa-lock  red]   </th><td>' + (this.state.nbCodeBad + this.state.nbCodeUnknown) + "</td></tr>";
+        text += '<tr><th>#ICON[fa-solid   fa-lock  green] </th><td>' + (this.state.nbCodeGood) + "</td></tr>";
+        text += '<tr><th>#ICON[fa-solid   fa-gear  red]   </th><td>' + (this.state.nbMachineBad) + "</td></tr>";
+        text += '<tr><th>#ICON[fa-solid   fa-gear  green] </th><td>' + (this.state.nbMachineGood) + "</td></tr>";
+        text += '</table>';
+
+        let modal = (new ModalTextBig(text));
+        modal.setTitle(title);
+        modal.addConfirmAction(
+            new Action(
+                'Fermer',
+                $.proxy(this.closeScore, this),
+                '#DDD',
+                '#333',
+                'fa-solid fa-xmark'
+            )
+        );
+        modal.open(this.display);
+        modal.sprite.htmlTag.find('.modal-body').addClass('modal-score');
+        modal.overlay.hide();
+    }
+
+    closeScore() {
         window.location.reload();
     }
 }

@@ -12,12 +12,15 @@ class GameState {
     /** @type {int|null}  */ timerInterval;
     /** @type {function}  */ callbackTimeChange;
     /** @type {int}       */ nbHelp;
-    /** @type {int}       */ nbPenalty;
     /** @type {int}       */ nbCodeUnknown;
     /** @type {int}       */ nbCodeBad;
     /** @type {int}       */ nbCodeGood;
     /** @type {int}       */ nbMachineUnknown;
+    /** @type {int}       */ nbMachineStart;
+    /** @type {int}       */ nbMachineBad;
     /** @type {int}       */ nbMachineGood;
+    /** @type {int}       */ nbPenalty;
+    /** @type {int}       */ penaltyTime;
     /** @type {boolean[]} */ listHelp;
     /** @type {boolean[]} */ listCode;
     /** @type {boolean[]} */ listMachine;
@@ -39,12 +42,15 @@ class GameState {
         this.currentTime    = scenario.timer.duration;
 
         this.nbHelp             = 0;
-        this.nbPenalty          = 0;
         this.nbCodeUnknown      = 0;
         this.nbCodeBad          = 0;
         this.nbCodeGood         = 0;
         this.nbMachineUnknown   = 0;
+        this.nbMachineStart     = 0;
+        this.nbMachineBad       = 0;
         this.nbMachineGood      = 0;
+        this.nbPenalty          = 0;
+        this.penaltyTime        = 0;
 
         this.listHelp    = [];
         this.listCode    = [];
@@ -113,6 +119,15 @@ class GameState {
      * @param {int} penalty
      */
     applyTimerPenalty(penalty = 60) {
+        this.nbPenalty++;
+        this.penaltyTime += penalty;
+        this.applyTimerPenaltyStep(penalty);
+    }
+
+    /**
+     * @param {int} penalty
+     */
+    applyTimerPenaltyStep(penalty) {
         if (penalty === 0) {
             this.isPenalty = false;
             return;
@@ -129,7 +144,7 @@ class GameState {
             $.proxy(
                 function () {
                     this.incrementTimer();
-                    this.applyTimerPenalty(penalty - 1); },
+                    this.applyTimerPenaltyStep(penalty - 1); },
                 this
             ),
             20

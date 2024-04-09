@@ -5,7 +5,6 @@ class ActionPenalty extends AbstractAction {
         }
 
         this.display.resource.playSoundBad();
-        this.state.nbPenalty++;
         this.state.applyTimerPenalty();
 
         if (this.state.isFirstPenalty) {

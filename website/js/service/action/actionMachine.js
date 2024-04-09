@@ -33,7 +33,7 @@ class ActionMachine extends AbstractAction {
      */
     displayGood(step) {
         this.display.resource.playSoundGood();
-        this.state.nbMachineGood++;
+        this.state.nbMachineStart++;
 
         this.dispatchEvent('machine.start', step.code);
         step.callback(step.code, this.actions);

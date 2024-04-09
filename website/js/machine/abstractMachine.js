@@ -159,8 +159,7 @@ class AbstractMachine extends AbstractAction {
      */
     executeMachineWrong(machineValue) {
         this.display.resource.playSoundBad();
-        this.state.nbCodeBad++;
-        this.state.nbPenalty++;
+        this.state.nbMachineBad++;
         this.state.applyTimerPenalty();
         this.resetButtonSwitches();
 
@@ -178,7 +177,7 @@ class AbstractMachine extends AbstractAction {
      */
     executeMachineBad(step) {
         this.display.resource.playSoundBad();
-        this.state.nbCodeBad++;
+        this.state.nbMachineBad++;
         this.state.applyTimerPenalty(step.penalty);
         this.resetButtonSwitches();
 
@@ -192,7 +191,7 @@ class AbstractMachine extends AbstractAction {
     executeMachineGood(step) {
         this.display.resource.playSoundGood();
         this.state.addMachine(step.code);
-        this.state.nbCodeGood++;
+        this.state.nbMachineGood++;
         this.stop();
 
         if (step.end) {
