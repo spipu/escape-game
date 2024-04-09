@@ -89,9 +89,28 @@ class ActionEnd extends AbstractAction {
      * @return {int}
      */
     calculateScore() {
-        let score = 50;
+        if (this.state.isEndFail) {
+            return 0;
+        }
 
-        return score;
+        let timeMax = this.scenario.timer.duration;
+        let timeUse = (this.scenario.timer.duration - this.state.currentTime);
+        let scoreTime = Math.floor(50 * 2. * (timeMax - timeUse) / timeMax);
+        if (scoreTime < 0) {
+            scoreTime = 0;
+        }
+        if (scoreTime > 50) {
+            scoreTime = 50;
+        }
+
+        let nbErrors = this.state.nbMachineBad + this.state.nbCodeBad + this.state.nbCodeUnknown;
+        let nbHelps  = this.state.nbHelp;
+
+        let scoreBad = 50 - 3 * nbErrors - nbHelps;
+        if (scoreBad < 0) {
+            scoreBad = 0;
+        }
+        return scoreTime + scoreBad;
     }
 
     closeScore() {
