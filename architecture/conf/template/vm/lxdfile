@@ -1,0 +1,5 @@
+name={{ENV_NAME}}
+template=ubuntu-22_04-jammy
+delivery-user={{ENV_USER}}
+mount=./../../:/var/www/{{ENV_NAME}}
+host={{ENV_HOST}}

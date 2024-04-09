@@ -1,0 +1,265 @@
+* {
+    webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+html, body, div, img, form, audio, video, ul, li {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 16px;
+    vertical-align: baseline;
+    font-family: "Helvetica", serif;
+}
+
+html {
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
+body {
+    background-color: black;
+}
+
+#main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#screen {
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    position: relative;
+}
+
+#screen div {
+    font-size: inherit;
+}
+
+#screen .overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0.60;
+}
+
+#screen .button-label {
+    position: absolute;
+    border: none;
+    text-align: center;
+    margin: auto;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 2px black, -1px -1px 2px black;
+
+}
+
+#screen .button {
+    position: absolute;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+
+    display: flex;
+    margin: auto;
+    align-items:center;
+    justify-content:center;
+
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+}
+
+#screen .button.button-no-image {
+    border-radius: 10px;
+}
+
+#screen .button.button-no-image i.mr {
+    margin-right: 5%;
+}
+
+#screen .button.button-image.button-hover {
+    filter: brightness(130%);
+}
+
+#screen .button.button-over-circle {
+    border-radius: 50%;
+    border: none;
+    background-color: #333333;
+    opacity: 0.00;
+}
+
+#screen .button.button-over-circle.button-hover {
+    opacity: 0.40;
+}
+
+#screen .button.button-disabled {
+    cursor: default;
+    filter: grayscale(1);
+}
+
+#screen .button.button-switch-off {
+    filter: grayscale(1);
+}
+
+#screen .sprite {
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    text-align: center;
+
+    display: flex;
+    margin: auto;
+    align-items:center;
+    justify-content:center;
+}
+
+#screen .modal {
+    display: block;
+}
+
+#screen .modal .modal-title {
+    overflow: hidden;
+    width: 90%;
+    height: 12%;
+
+    margin: auto;
+    margin-top: 5%;
+    align-items:center;
+    justify-content:center;
+    font-size: 150%;
+}
+#screen .modal .modal-body {
+    overflow: hidden;
+    width: 90%;
+    height: 63%;
+
+    display: flex;
+    margin: auto;
+    align-items:center;
+    justify-content:center;
+}
+
+#screen .modal .modal-content {
+    display: block;
+}
+
+#screen .modal .modal-parameters {
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+
+#screen .modal .modal-parameters .parameter {
+    cursor: pointer;
+}
+
+#screen .puzzle {
+    border: solid 3px white;
+    color: white;
+    font-size: 200%;
+
+    border-radius: 5px;
+    padding: 25% 10%;
+
+    display: flex;
+    margin: auto;
+    align-items:center;
+    justify-content:center;
+}
+
+#screen .puzzle.puzzle-red {
+    background-color: #C33;
+}
+
+#screen .puzzle.puzzle-blue {
+    background-color: dodgerblue;
+}
+
+#screen .puzzle i {
+    padding-right: 10%;
+}
+
+#screen .card {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+#screen .card-del {
+    background-color: #CC3333;
+}
+
+#screen .card-add {
+    background-color: #33CC33;
+}
+
+#screen .keyboard {
+    display: block;
+}
+
+#screen .keyboard .keyboard-screen {
+    position: absolute;
+    top: 9.5%;
+    left: 26%;
+    width: 48%;
+    height: 11%;
+    font-size: 280%;
+    font-weight: bold;
+}
+
+#screen .digicode-screen {
+    text-align: center;
+    font-size: 400%;
+    font-weight: bold;
+}
+
+#screen .machine-background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+}
+
+#screen ul.main-menu {
+    display: block;
+    width: 100%;
+    border: none;
+    color: #333;
+    list-style: none;
+}
+
+#screen ul.main-menu li {
+    display: block;
+    border: solid 2px grey;
+    background: #CCC;
+    cursor: pointer;
+    margin: 5px;
+    padding: 10px;
+    text-align: center;
+}
+
+#screen div.main-reload {
+    display: block;
+    width: 100%;
+    border: none;
+    color: #999;
+    text-align: center;
+    padding: 10px;
+    font-size: 32px;
+}
