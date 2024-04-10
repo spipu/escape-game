@@ -2,6 +2,6 @@ class AppVersion {
     /** @type {int} */ currentVersion;
 
     constructor() {
-        this.currentVersion = 18;
+        this.currentVersion = 19;
     }
 }

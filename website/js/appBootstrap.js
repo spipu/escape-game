@@ -58,6 +58,7 @@ class AppBootstrap {
             '/js/machine/machineDigicode.js',
             '/scenario/tutorial/definition.js',
             '/scenario/broceliande/definition.js',
+            '/scenario/home/definition.js',
         ];
 
         this.loadVersion();
@@ -147,6 +148,7 @@ class AppBootstrap {
         (new Launcher(this.version))
             .addScenario(new ScenarioTutorial())
             .addScenario(new ScenarioBroceliande())
+            .addScenario(new ScenarioHome())
             .start()
     }
 }
