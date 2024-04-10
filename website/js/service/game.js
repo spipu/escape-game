@@ -1,10 +1,11 @@
 class Game {
-    /** @type {AppVersion}   */ version;
-    /** @type {GameDisplay}  */ display;
-    /** @type {Scenario}     */ scenario;
-    /** @type {GameResource} */ resource;
-    /** @type {GameState}    */ state;
-    /** @type {Actions}      */ actions;
+    /** @type {AppVersion}     */ version;
+    /** @type {GameDisplay}    */ display;
+    /** @type {Scenario}       */ scenario;
+    /** @type {GameResource}   */ resource;
+    /** @type {GameState}      */ state;
+    /** @type {Actions}        */ actions;
+    /** @type {ScreenWakeLock} */ screenWakeLock;
 
     /**
      * @param {Scenario}   scenario
@@ -17,7 +18,8 @@ class Game {
         this.state    = new GameState(scenario);
         this.resource = new GameResource(scenario, this.state, version);
         this.display  = new GameDisplay(this.resource);
-        this.actions  = new Actions(this.display, this.scenario, this.state, this.scenario.keyboard, this.scenario.timer);
+        this.actions  = new Actions(this.display, this.scenario, this.state);
+        this.screenWakeLock = new ScreenWakeLock();
     }
 
     start() {
@@ -62,6 +64,9 @@ class Game {
         if (this.scenario.initCallback) {
             this.scenario.initCallback(this.actions);
         }
+
+        window.addEventListener('escape-game.start', (e) => { this.screenWakeLock.ask(); }, false);
+        window.addEventListener('escape-game.end', (e) => { this.screenWakeLock.release(); }, false);
     }
 
     addActionOnButton(button, action) {

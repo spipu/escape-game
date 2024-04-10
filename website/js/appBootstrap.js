@@ -52,6 +52,7 @@ class AppBootstrap {
             '/js/service/game/display.js',
             '/js/service/game.js',
             '/js/service/launcher.js',
+            '/js/service/screenWakeLock.js',
             '/js/machine/abstractMachine.js',
             '/js/machine/machineConnector.js',
             '/js/machine/machineDigicode.js',
