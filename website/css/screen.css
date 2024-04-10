@@ -1,0 +1,44 @@
+* {
+    webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+html, body, div, img, form, audio, video, ul, li {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 16px;
+    vertical-align: baseline;
+    font-family: "Helvetica", serif;
+}
+
+html {
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
+body {
+    background-color: black;
+}
+
+#main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#screen {
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    position: relative;
+}
+
+#screen div {
+    font-size: inherit;
+}

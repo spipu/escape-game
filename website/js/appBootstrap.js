@@ -1,9 +1,17 @@
 class AppBootstrap {
     /** @type {AppVersion} */ version;
+    /** @type {string[]}   */ cssFiles;
     /** @type {string[]}   */ jsFiles;
-    /** @type {int}        */ currentFile;
+    /** @type {int}        */ currentCssFile;
+    /** @type {int}        */ currentJsFile;
 
     constructor() {
+        this.cssFiles = [
+            '/css/screen.css',
+            '/css/launcher.css',
+            '/css/app.css',
+        ];
+
         this.jsFiles = [
             '/js/model/action.js',
             '/js/model/button.js',
@@ -64,30 +72,64 @@ class AppBootstrap {
 
     verifyVersion() {
         this.version = new AppVersion();
-        this.currentFile = 0;
+        this.currentCssFile = 0;
+        this.currentJsFile = 0;
+        this.loadNextCssFile();
+    }
+
+    loadNextCssFile() {
+        this.loadCssFile(
+            this.cssFiles[this.currentCssFile],
+            this.version.currentVersion,
+            $.proxy(this.cssSuccess, this)
+        )
+    }
+
+    loadCssFile(url, version, callbackLoaded) {
+        let htmlTag = document.createElement("link");
+        htmlTag.setAttribute("rel", "stylesheet");
+        htmlTag.setAttribute("type", "text/css");
+        htmlTag.setAttribute("href", url + '?_v=' + version);
+        htmlTag.onload=callbackLoaded;
+        htmlTag.onerror=$.proxy(this.cssFailed, this);
+        document.body.appendChild(htmlTag);
+    }
+
+    cssSuccess() {
+        this.currentCssFile++;
+        if (this.currentCssFile < this.cssFiles.length) {
+            this.loadNextCssFile();
+            return;
+        }
+
         this.loadNextJsFile();
+    }
+
+    cssFailed() {
+        alert('Error on loading CSS file ' + this.cssFiles[this.currentCssFile]);
+        window.location.reload();
     }
 
     loadNextJsFile() {
         this.loadJsFile(
-            this.jsFiles[this.currentFile],
+            this.jsFiles[this.currentJsFile],
             this.version.currentVersion,
             $.proxy(this.jsSuccess, this)
         )
     }
 
     loadJsFile(url, version, callbackLoaded) {
-        let script = document.createElement("script");
-        script.setAttribute("type", "text/javascript");
-        script.setAttribute("src", url + '?_v=' + version);
-        script.onload=callbackLoaded;
-        script.onerror=$.proxy(this.jsFailed, this);
-        document.body.appendChild(script);
+        let htmlTag = document.createElement("script");
+        htmlTag.setAttribute("type", "text/javascript");
+        htmlTag.setAttribute("src", url + '?_v=' + version);
+        htmlTag.onload=callbackLoaded;
+        htmlTag.onerror=$.proxy(this.jsFailed, this);
+        document.body.appendChild(htmlTag);
     }
 
     jsSuccess() {
-        this.currentFile++;
-        if (this.currentFile < this.jsFiles.length) {
+        this.currentJsFile++;
+        if (this.currentJsFile < this.jsFiles.length) {
             this.loadNextJsFile();
             return;
         }
@@ -96,7 +138,7 @@ class AppBootstrap {
     }
 
     jsFailed() {
-        alert('Error on loading JS file ' + this.jsFiles[this.currentFile]);
+        alert('Error on loading JS file ' + this.jsFiles[this.currentJsFile]);
         window.location.reload();
     }
 

@@ -1,0 +1,37 @@
+#screen ul.main-menu {
+    display: block;
+    width: 100%;
+    border: none;
+    color: #333;
+    list-style: none;
+}
+
+#screen ul.main-menu li {
+    display: block;
+    border: solid 2px grey;
+    background: #CCC;
+    cursor: pointer;
+    margin: 5px;
+    padding: 10px;
+    text-align: center;
+}
+
+#screen div.main-reload {
+    display: block;
+    width: 100%;
+    border: none;
+    color: #999;
+    text-align: center;
+    padding: 10px;
+    font-size: 32px;
+}
+
+#screen div.main-version {
+    display: block;
+    width: 100%;
+    border: none;
+    color: #999;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+}
