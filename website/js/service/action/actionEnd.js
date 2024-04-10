@@ -49,7 +49,7 @@ class ActionEnd extends AbstractAction {
 
         let title = '';
         if (this.state.isEndSuccess) {
-            title = "Vous avez réussit !\n";
+            title = "Vous avez réussi !\n";
         }
         if (this.state.isEndFail) {
             title = "Vous avez échoué...\n";
