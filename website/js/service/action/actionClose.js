@@ -30,7 +30,8 @@ class ActionClose extends AbstractAction {
      */
     actionConfirm(modal) {
         modal.close(this.display);
-        setTimeout(function() { window.location.reload(); }, 10);
+        this.dispatchEvent('close');
+        setTimeout(function() { window.location.reload(); }, 50);
     }
 
     /**

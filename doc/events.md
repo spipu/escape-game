@@ -7,6 +7,7 @@
 * `escape-game.pause`
 * `escape-game.penalty`
 * `escape-game.end`
+* `escape-game.close`
 * `escape-game.help.unknown`
 * `escape-game.help.good`
 * `escape-game.code.bad`

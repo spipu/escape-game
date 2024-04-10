@@ -66,7 +66,8 @@ class Game {
         }
 
         window.addEventListener('escape-game.start', (e) => { this.screenWakeLock.ask(); }, false);
-        window.addEventListener('escape-game.end', (e) => { this.screenWakeLock.release(); }, false);
+        window.addEventListener('escape-game.end',   (e) => { this.screenWakeLock.release(); }, false);
+        window.addEventListener('escape-game.close', (e) => { this.screenWakeLock.release(); }, false);
     }
 
     addActionOnButton(button, action) {

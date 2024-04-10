@@ -8,8 +8,8 @@ class ScreenWakeLock {
     }
 
     init() {
-        document.addEventListener('visibilitychange', $.proxy(this.handleVisibilityChange, this));
         this.ask();
+        document.addEventListener('visibilitychange', $.proxy(this.handleVisibilityChange, this));
     }
 
     async ask() {
