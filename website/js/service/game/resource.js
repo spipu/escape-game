@@ -1,6 +1,7 @@
 class GameResource {
     /** @type {Scenario}        */ scenario;
     /** @type {GameState}       */ state;
+    /** @type {AppVersion}      */ version;
     /** @type {string|null}     */ currentMusic;
     /** @type {boolean}         */ forcePause;
     /** @type {ResourceImage[]} */ images;
@@ -9,12 +10,12 @@ class GameResource {
     /**
      * @param {Scenario}  scenario
      * @param {GameState} state
-     * @param {boolean}   forceReload
+     * @param {AppVersion} version
      */
-    constructor(scenario, state, forceReload) {
+    constructor(scenario, state, version) {
         this.scenario     = scenario;
         this.state        = state;
-        this.forceReload  = forceReload;
+        this.version      = version;
         this.currentMusic = null;
         this.forcePause   = false;
 
@@ -25,14 +26,14 @@ class GameResource {
     initImages() {
         this.images = [];
         for (let key in this.scenario.images) {
-            this.images[key] = this.scenario.images[key].init(this.scenario.code, this.forceReload);
+            this.images[key] = this.scenario.images[key].init(this.scenario.code, this.version);
         }
     }
 
     initSounds() {
         this.sounds = [];
         for (let key in this.scenario.sounds) {
-            this.sounds[key] = this.scenario.sounds[key].init(this.scenario.code, this.forceReload);
+            this.sounds[key] = this.scenario.sounds[key].init(this.scenario.code, this.version);
         }
 
         document.addEventListener('visibilitychange', $.proxy(this.visibilitychange, this));

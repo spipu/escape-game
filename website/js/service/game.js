@@ -1,4 +1,5 @@
 class Game {
+    /** @type {AppVersion}   */ version;
     /** @type {GameDisplay}  */ display;
     /** @type {Scenario}     */ scenario;
     /** @type {GameResource} */ resource;
@@ -6,14 +7,15 @@ class Game {
     /** @type {Actions}      */ actions;
 
     /**
-     * @param {Scenario} scenario
-     * @param {boolean}  forceReload
+     * @param {Scenario}   scenario
+     * @param {AppVersion} version
      */
-    constructor(scenario, forceReload) {
+    constructor(scenario, version) {
         scenario.load();
+        this.version  = version;
         this.scenario = scenario;
         this.state    = new GameState(scenario);
-        this.resource = new GameResource(scenario, this.state, forceReload);
+        this.resource = new GameResource(scenario, this.state, version);
         this.display  = new GameDisplay(this.resource);
         this.actions  = new Actions(this.display, this.scenario, this.state, this.scenario.keyboard, this.scenario.timer);
     }

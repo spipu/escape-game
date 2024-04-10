@@ -26,15 +26,12 @@ class ResourceSound {
 
     /**
      * @param {string} scenarioCode
-     * @param {boolean} forceReload
+     * @param {AppVersion} version
      * @return {ResourceSound}
      */
-    init(scenarioCode, forceReload) {
+    init(scenarioCode, version) {
         this.url = '/scenario/' + scenarioCode + '/sound/' + this.filename;
-
-        if (forceReload) {
-            this.url += '?_t=' + (new Date()).getTime()
-        }
+        this.url += '?_v=' + version.currentVersion;
 
         this.player = new Howl(
             {

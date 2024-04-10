@@ -1,9 +1,12 @@
 class Launcher {
-    /** @type {boolean}    */ forceReload;
+    /** @type {AppVersion} */ version;
     /** @type {Scenario[]} */ list;
 
-    constructor(forceReload) {
-        this.forceReload = forceReload;
+    /**
+     * @param {AppVersion} version
+     */
+    constructor(version) {
+        this.version = version;
         this.list = [];
     }
 
@@ -34,11 +37,18 @@ class Launcher {
         let containerTag = $('<div class="main-reload"></div>');
         containerTag.append(reloadTag);
 
-        $('#screen').append(listTag).append(containerTag);
+        let versionTag = $('<div class="main-version"></div>');
+        versionTag.text('Version 1.' + this.version.currentVersion);
+
+        $('#screen')
+            .append(listTag)
+            .append(containerTag)
+            .append(versionTag)
+        ;
     }
 
     startGame(key) {
-        (new Game(this.list[key], this.forceReload)).start();
+        (new Game(this.list[key], this.version)).start();
     }
 
     reload() {

@@ -299,3 +299,13 @@ body {
     padding: 10px;
     font-size: 32px;
 }
+
+#screen div.main-version {
+    display: block;
+    width: 100%;
+    border: none;
+    color: #999;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+}

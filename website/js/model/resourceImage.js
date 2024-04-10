@@ -17,16 +17,13 @@ class ResourceImage {
     }
 
     /**
-     * @param {string}  scenarioCode
-     * @param {boolean} forceReload
+     * @param {string}     scenarioCode
+     * @param {AppVersion} version
      * @return {ResourceImage}
      */
-    init(scenarioCode, forceReload) {
+    init(scenarioCode, version) {
         this.url = '/scenario/' + scenarioCode + '/image/' + this.filename;
-
-        if (forceReload) {
-            this.url += '?_t=' + (new Date()).getTime()
-        }
+        this.url += '?_v=' + version.currentVersion;
 
         $('<img/>')[0].src = this.url;
 

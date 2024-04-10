@@ -1,7 +1,9 @@
 class AppBootstrap {
-    constructor(forceReload = false) {
-        this.forceReload = forceReload;
+    /** @type {AppVersion} */ version;
+    /** @type {string[]}   */ jsFiles;
+    /** @type {int}        */ currentFile;
 
+    constructor() {
         this.jsFiles = [
             '/js/model/action.js',
             '/js/model/button.js',
@@ -49,20 +51,36 @@ class AppBootstrap {
             '/scenario/broceliande/definition.js',
         ];
 
+        this.loadVersion();
+    }
+
+    loadVersion() {
+        this.loadJsFile(
+            '/js/appVersion.js',
+            (new Date()).getTime(),
+            $.proxy(this.verifyVersion, this)
+        );
+    }
+
+    verifyVersion() {
+        this.version = new AppVersion();
         this.currentFile = 0;
         this.loadNextJsFile();
     }
 
     loadNextJsFile() {
-        let url = this.jsFiles[this.currentFile];
-        if (this.forceReload) {
-            url += '?_t=' + (new Date()).getTime()
-        }
+        this.loadJsFile(
+            this.jsFiles[this.currentFile],
+            this.version.currentVersion,
+            $.proxy(this.jsSuccess, this)
+        )
+    }
 
+    loadJsFile(url, version, callbackLoaded) {
         let script = document.createElement("script");
         script.setAttribute("type", "text/javascript");
-        script.setAttribute("src", url);
-        script.onload=$.proxy(this.jsSuccess, this);
+        script.setAttribute("src", url + '?_v=' + version);
+        script.onload=callbackLoaded;
         script.onerror=$.proxy(this.jsFailed, this);
         document.body.appendChild(script);
     }
@@ -74,7 +92,7 @@ class AppBootstrap {
             return;
         }
 
-        this.launchApp();
+        this.ready();
     }
 
     jsFailed() {
@@ -82,8 +100,8 @@ class AppBootstrap {
         window.location.reload();
     }
 
-    launchApp() {
-        (new Launcher(this.forceReload))
+    ready() {
+        (new Launcher(this.version))
             .addScenario(new ScenarioTutorial())
             .addScenario(new ScenarioBroceliande())
             .start()
