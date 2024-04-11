@@ -64,7 +64,7 @@ class ScenarioHome extends Scenario {
                     )
             )
 
-            .addHelp(new Help('11', "Serait-ce pour ouvrir quelque chose ?"))
+            .addHelp(new Help('11', "Serait-ce pour ouvrir une trappe ?"))
             .addHelp(new Help('13', "On dirait un programme de lave-linge."))
             .addHelp(new Help('19', "Où pouvez-vous trouver un code à 3 chiffres ?"))
             .addHelp(new Help('21', "Il faut 4 chiffres,\n peut-être une année ?"))
@@ -78,7 +78,7 @@ class ScenarioHome extends Scenario {
             .addHelp(new Help('33', "Serait-ce une partie d'un code ?"))
             .addHelp(new Help('34', "Pauvre Cendrillon, toute seule dans la tour de son château..."))
             .addHelp(new Help('45', "Il y a un souvenir d'une réunion de famille dans cette pièce ?"))
-            .addHelp(new Help('47', "C'était un très bel anniversaire\nMais qu'est-ce qui était fêté ?"))
+            .addHelp(new Help('47', "C'était un très bel anniversaire\nMais quelle était la date du mariage ?"))
             .addHelp(new Help('49', "Un code à 6 chiffres en 3 parties ?\nUne date peut-être ?"))
 
             .addStepMachine(this.createStepDigicode('19', 3, '314'))
