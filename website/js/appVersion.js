@@ -2,6 +2,7 @@ class AppVersion {
     /** @type {int} */ currentVersion;
 
     constructor() {
-        this.currentVersion = 19;
+        this.currentVersion = 20
+        // this.currentVersion = (new Date()).getTime();
     }
 }

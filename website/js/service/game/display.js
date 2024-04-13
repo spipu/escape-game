@@ -133,37 +133,28 @@ class GameDisplay {
      * @param {Button} button
      */
     enableButton(button) {
-        button.enable = true;
-        button.htmlTag.removeClass('button-disabled');
+        button.enable();
     }
 
     /**
      * @param {Button} button
      */
     disableButton(button) {
-        button.enable = false;
-        button.htmlTag.addClass('button-disabled');
-        button.htmlTag.removeClass('button-hover');
+        button.disable();
     }
 
     /**
      * @param {Button} button
      */
     showButton(button) {
-        button.htmlTag.show();
-        if (button.labelTag) {
-            button.labelTag.show();
-        }
+        button.show();
     }
 
     /**
      * @param {Button} button
      */
     hideButton(button) {
-        button.htmlTag.hide();
-        if (button.labelTag) {
-            button.labelTag.hide();
-        }
+        button.hide();
     }
 
     /**

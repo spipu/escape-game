@@ -6,17 +6,17 @@ class Button {
     /** @type {int|null} */ buttonId;
     /**                  */ htmlTag;
     /**                  */ labelTag;
-    /** @type {boolean}  */ enable;
+    /** @type {boolean}  */ enabled;
     /** @type {boolean}  */ click;
     /** @type {string}   */ label;
 
     /**
-     * @param {Size} size
-     * @param {Position} position
+     * @param {Size|null} size
+     * @param {Position|null} position
      * @param {string|null} image
      * @param {string|null} specificClass
      */
-    constructor(size, position, image, specificClass = null) {
+    constructor(size = null, position = null, image = null, specificClass = null) {
         this.size          = size;
         this.position      = position;
         this.image         = image;
@@ -24,8 +24,12 @@ class Button {
         this.buttonId = null;
         this.htmlTag  = null;
         this.labelTag = null;
-        this.enable   = false;
+        this.enabled  = false;
         this.click    = true;
+    }
+
+    isReady() {
+        return (this.size !== null && this.position !== null);
     }
 
     disableClick() {
@@ -43,7 +47,10 @@ class Button {
      * @param {GameDisplay} display
      */
     add(display) {
-        this.enable = true;
+        this.enabled = true;
+        if (!this.isReady()) {
+            return;
+        }
 
         this.htmlTag = new $('<div class="button"></div>');
         if (this.image) {
@@ -57,7 +64,7 @@ class Button {
 
         let functionOn = $.proxy(
             function () {
-                if (this.enable) {
+                if (this.enabled) {
                     this.htmlTag.addClass('button-hover');
                 }
             },
@@ -66,7 +73,7 @@ class Button {
 
         let functionOff = $.proxy(
             function () {
-                if (this.enable) {
+                if (this.enabled) {
                     this.htmlTag.removeClass('button-hover');
                 }
             },
@@ -75,7 +82,7 @@ class Button {
 
         let functionSound = $.proxy(
             function () {
-                if (this.enable && this.click) {
+                if (this.enabled && this.click) {
                     display.resource.playSoundClick();
                 }
             },
@@ -111,6 +118,10 @@ class Button {
      * @param {GameDisplay} display
      */
     remove(display) {
+        if (!this.isReady()) {
+            return;
+        }
+
         display.buttons[this.buttonId] = null;
 
         if (this.labelTag) {
@@ -127,6 +138,10 @@ class Button {
      * @param {GameDisplay} display
      */
     updatePosition(display) {
+        if (!this.isReady()) {
+            return;
+        }
+
         this.htmlTag
             .css('width',  this.size.width  * display.ratio)
             .css('height', this.size.height * display.ratio)
@@ -140,6 +155,47 @@ class Button {
                 .css('left',   this.position.x  * display.ratio)
                 .css('top',    (this.position.y - 40)  * display.ratio)
             ;
+        }
+    }
+
+    enable() {
+        if (!this.isReady()) {
+            return;
+        }
+
+        this.enabled = true;
+        this.htmlTag.removeClass('button-disabled');
+    }
+
+    disable() {
+        if (!this.isReady()) {
+            return;
+        }
+
+        this.enabled = false;
+        this.htmlTag.addClass('button-disabled');
+        this.htmlTag.removeClass('button-hover');
+    }
+
+    show() {
+        if (!this.isReady()) {
+            return;
+        }
+
+        this.htmlTag.show();
+        if (this.labelTag) {
+            this.labelTag.show();
+        }
+    }
+
+    hide() {
+        if (!this.isReady()) {
+            return;
+        }
+
+        this.htmlTag.hide();
+        if (this.labelTag) {
+            this.labelTag.hide();
         }
     }
 }

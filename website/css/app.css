@@ -214,6 +214,10 @@
     font-size: 400%;
     font-weight: bold;
 }
+#screen .digicode-screen i {
+    padding-right: 1%;
+    font-size: 68%;
+}
 
 #screen .machine-background {
     position: absolute;

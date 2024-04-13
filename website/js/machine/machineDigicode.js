@@ -1,16 +1,29 @@
 class MachineDigicode extends AbstractMachine {
 
-    /** @type {int}    */ maxDigits;
-    /** @type {int}    */ screenWidth;
-    /** @type {int}    */ screenHeight;
-    /** @type {int}    */ screenDeltaY;
-    /** @type {int}    */ digitsSize;
-    /** @type {int}    */ digitsMargeX;
-    /** @type {int}    */ digitsMargeY;
-    /** @type {int}    */ digitsDeltaX;
-    /** @type {int}    */ digitsDeltaY;
-    /** @type {Sprite} */ screen;
-    /** @type {string} */ digicodeValue;
+    /** @type {int}     */ minDigits = 1;
+    /** @type {int}     */ maxDigits;
+    /** @type {boolean} */ displayDigits = true;
+    /** @type {boolean} */ displayEmptyDigits = false;
+    /** @type {int}     */ screenWidth;
+    /** @type {int}     */ screenHeight;
+    /** @type {int}     */ screenDeltaY;
+    /** @type {int}     */ digitsSize;
+    /** @type {int}     */ digitsMargeX;
+    /** @type {int}     */ digitsMargeY;
+    /** @type {int}     */ digitsDeltaX;
+    /** @type {int}     */ digitsDeltaY;
+    /** @type {Sprite}  */ screen;
+    /** @type {string}  */ digicodeValue;
+
+
+    /**
+     * @param {int} minDigits
+     * @return {MachineDigicode}
+     */
+    setMinDigit(minDigits) {
+        this.minDigits = minDigits;
+        return this;
+    }
 
     /**
      * @param {int} maxDigits
@@ -18,6 +31,24 @@ class MachineDigicode extends AbstractMachine {
      */
     setMaxDigit(maxDigits) {
         this.maxDigits = maxDigits;
+        return this;
+    }
+
+    /**
+     * @param {boolean} displayDigits
+     * @return {MachineDigicode}
+     */
+    setDisplayDigits(displayDigits) {
+        this.displayDigits = displayDigits;
+        return this;
+    }
+
+    /**
+     * @param {boolean} displayEmptyDigits
+     * @return {MachineDigicode}
+     */
+    setDisplayEmptyDigits(displayEmptyDigits) {
+        this.displayEmptyDigits = displayEmptyDigits;
         return this;
     }
 
@@ -105,7 +136,20 @@ class MachineDigicode extends AbstractMachine {
     }
 
     updateValue() {
-        this.screen.htmlTag.text(this.digicodeValue);
+        let value = this.digicodeValue;
+        if (!this.displayDigits) {
+            value = '';
+            for (let k=0; k<this.digicodeValue.length; k++) {
+                value += '<i class="fa-solid fa-asterisk"></i>';
+            }
+        }
+        if (this.displayEmptyDigits) {
+            for (let k=this.digicodeValue.length; k<this.minDigits; k++) {
+                value += '_';
+            }
+        }
+
+        this.screen.htmlTag.html(value);
     }
 
     /**

@@ -42,12 +42,10 @@ class ScenarioHome extends Scenario {
 
             .setButtonClose(     new Button(new Size(100, 100), new Position(635, 15),   'btn_close'))
             .setButtonParameters(new Button(new Size(100, 100), new Position(15, 15),    'btn_parameters'))
-            .setButtonPause(     new Button(new Size(180, 180), new Position(285, 500),  'btn_pause'))
-            .setButtonPlay(      new Button(new Size(180, 180), new Position(285, 500),  'btn_play'))
-            .setButtonPenalty(   new Button(new Size(180, 180), new Position(285, 760),  'btn_penalty'))
-            .setButtonHelp(      new Button(new Size(180, 180), new Position(285, 1020), 'btn_help'))
-            .setButtonCode(      new Button(new Size(180, 180), new Position(35, 760),   'btn_code'))
-            .setButtonMachine(   new Button(new Size(180, 180), new Position(535, 760),  'btn_machine'))
+            .setButtonPause(     new Button(new Size(180, 180), new Position(285, 560),  'btn_pause'))
+            .setButtonPlay(      new Button(new Size(180, 180), new Position(285, 560),  'btn_play'))
+            .setButtonHelp(      new Button(new Size(180, 180), new Position(35, 840),   'btn_help'))
+            .setButtonMachine(   new Button(new Size(180, 180), new Position(535, 840),  'btn_machine'))
 
             .setTimer((new Timer(60*30, true)).setDisplay('bkg_timer', new Size(560, 232), new Position(85, 160), 160))
             .setKeyboard(new Keyboard('kb_background', 'btn_blue', 'btn_green', 'btn_red', 'btn_close'))
@@ -101,7 +99,7 @@ class ScenarioHome extends Scenario {
         ;
     }
 
-    createStepDigicode(key, maxDigit, expected, isEnd = false) {
+    createStepDigicode(key, nbDigits, expected, isEnd = false) {
         return (new StepMachine(key))
             .setCallbackStartMachine(
                 function (code, actions) {
@@ -118,7 +116,10 @@ class ScenarioHome extends Scenario {
 
                     (new MachineDigicode(code, actions))
                         .setButtonCloseImage('btn_close')
-                        .setMaxDigit(maxDigit)
+                        .setMinDigit(nbDigits)
+                        .setMaxDigit(nbDigits)
+                        .setDisplayDigits(!isEnd)
+                        .setDisplayEmptyDigits(true)
                         .setScreen(500, 160, 100)
                         .setDigitsPosition(183, 1, 36, 44, 50)
                         .addStepCode(step)

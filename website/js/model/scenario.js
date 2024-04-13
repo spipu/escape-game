@@ -42,6 +42,17 @@ class Scenario {
         this.stepMachines = [];
         this.stepEndings  = [];
         this.themes       = [];
+
+        this
+            .setButtonClose(new Button())
+            .setButtonParameters(new Button())
+            .setButtonPause(new Button())
+            .setButtonPlay(new Button())
+            .setButtonHelp(new Button())
+            .setButtonCode(new Button())
+            .setButtonPenalty(new Button())
+            .setButtonMachine(new Button())
+        ;
     }
 
     load() {

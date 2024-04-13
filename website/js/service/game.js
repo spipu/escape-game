@@ -61,16 +61,17 @@ class Game {
 
         this.actions.pause.execute();
 
+        this.screenWakeLock.init();
         if (this.scenario.initCallback) {
             this.scenario.initCallback(this.actions);
         }
-
-        window.addEventListener('escape-game.start', (e) => { this.screenWakeLock.ask(); }, false);
-        window.addEventListener('escape-game.end',   (e) => { this.screenWakeLock.release(); }, false);
-        window.addEventListener('escape-game.close', (e) => { this.screenWakeLock.release(); }, false);
     }
 
     addActionOnButton(button, action) {
+        if (!button.isReady()) {
+            return;
+        }
+
         button.htmlTag.on(
             'click',
             $.proxy(action.execute, action)
