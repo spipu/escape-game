@@ -75,15 +75,58 @@ class ScenarioHome extends Scenario {
             .addHelp(new Help('32', "Ecouter un CD aiderait sûrement..."))
             .addHelp(new Help('33', "Serait-ce une partie d'un code ?"))
             .addHelp(new Help('34', "Pauvre Cendrillon, toute seule dans la tour de son château..."))
-            .addHelp(new Help('45', "Il y a un souvenir d'une réunion de famille dans cette pièce ?"))
-            .addHelp(new Help('47', "C'était un très bel anniversaire\nMais quelle était la date du mariage ?"))
-            .addHelp(new Help('49', "Un code à 6 chiffres en 3 parties ?\nUne date peut-être ?"))
+            .addHelp(new Help('41', "Cette porte est vraiment fermée.\nCela ne sert à rien d'insister..."))
+            .addHelp(new Help('42', "Cette porte est vraiment fermée.\nCela ne sert à rien d'insister..."))
+            .addHelp(new Help('49', "Un code à 6 chiffres en 3 parties ?\nUne date importante peut-être ?"))
+            .addHelp(new Help('51', "Il faut utiliser quelque chose pour pouvoir le lire"))
+            .addHelp(new Help('53', "Mais pour ouvrir quoi ?"))
+            .addHelp(new Help('55', "Il faudrait trouver un indice pour cette machine."))
+            .addHelp(new Help('57', "Il y a un souvenir d'une réunion de famille dans cette pièce ?"))
+            .addHelp(new Help('59', "C'était un très bel anniversaire\nMais quelle était la date du mariage ?"))
 
             .addStepMachine(this.createStepDigicode('19', 3, '314'))
             .addStepMachine(this.createStepDigicode('21', 4, '2018'))
             .addStepMachine(this.createStepDigicode('23', 4, '2014'))
             .addStepMachine(this.createStepDigicode('25', 6, '437198'))
             .addStepMachine(this.createStepDigicode('49', 6, '010709', true))
+
+            .addStepMachine(
+                (new StepMachine('55'))
+                    .setCallbackStartMachine(
+                        function (code, actions) {
+                            (new MachineConnector(code, actions))
+                                .setButtonCloseImage('btn_close')
+                                .setButtonCancelImage('btn_red')
+                                .setButtonConfirmImage('btn_green')
+                                .addButtonSwitch(new ButtonSwitch('A', new Position( 74, 445), new Size(58, 58), 'btn_orange'))
+                                .addButtonSwitch(new ButtonSwitch('B', new Position(207, 448), new Size(58, 58), 'btn_orange'))
+                                .addButtonSwitch(new ButtonSwitch('C', new Position(340, 448), new Size(58, 58), 'btn_orange'))
+                                .addButtonSwitch(new ButtonSwitch('D', new Position(472, 448), new Size(58, 58), 'btn_orange'))
+                                .addButtonSwitch(new ButtonSwitch('E', new Position(604, 445), new Size(58, 58), 'btn_orange'))
+
+                                .addButtonSwitch(new ButtonSwitch('F', new Position( 74, 618), new Size(58, 58), 'btn_orange'))
+                                .addButtonSwitch(new ButtonSwitch('G', new Position(207, 618), new Size(58, 58), 'btn_orange'))
+                                .addButtonSwitch(new ButtonSwitch('H', new Position(340, 618), new Size(58, 58), 'btn_orange'))
+                                .addButtonSwitch(new ButtonSwitch('I', new Position(472, 618), new Size(58, 58), 'btn_orange'))
+                                .addButtonSwitch(new ButtonSwitch('J', new Position(604, 618), new Size(58, 58), 'btn_orange'))
+
+                                .addButtonSwitch(new ButtonSwitch('K', new Position( 74, 793), new Size(58, 58), 'btn_orange'))
+                                .addButtonSwitch(new ButtonSwitch('L', new Position(207, 793), new Size(58, 58), 'btn_orange'))
+                                .addButtonSwitch(new ButtonSwitch('M', new Position(340, 793), new Size(58, 58), 'btn_orange'))
+                                .addButtonSwitch(new ButtonSwitch('N', new Position(472, 786), new Size(58, 58), 'btn_orange'))
+                                .addButtonSwitch(new ButtonSwitch('O', new Position(604, 786), new Size(58, 58), 'btn_orange'))
+                                .addStepCode(
+                                    (new StepCode('AEHKO'))
+                                        .setText(
+                                            "La porte est maintenant dévérouillée.\n" +
+                                            "\n" +
+                                            "Vous pouvez ouvrir la porte."
+                                        )
+                                )
+                                .start();
+                        }
+                    )
+            )
 
             .addStepEnding(
                 (new StepEnding('good'))
