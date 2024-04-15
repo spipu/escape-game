@@ -10,6 +10,7 @@ class AppBootstrap {
             '/css/screen.css',
             '/css/launcher.css',
             '/css/app.css',
+            '/css/scenario/broceliande.css',
         ];
 
         this.jsFiles = [

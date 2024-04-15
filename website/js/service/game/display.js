@@ -26,6 +26,8 @@ class GameDisplay {
         this.maxSpriteId = 0;
         this.screen = $('#screen');
         this.screen.empty();
+
+        this.screen.addClass('scenario-' + resource.scenario.code);
     }
 
     init() {

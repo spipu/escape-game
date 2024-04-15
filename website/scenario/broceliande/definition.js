@@ -1,6 +1,6 @@
 class ScenarioBroceliande extends Scenario {
     constructor() {
-        super('broceliande', 'Le mystère de la forêt de Brocéliande');
+        super('broceliande', 'Les légendes de la forêt de Brocéliande');
     }
 
     load() {
@@ -37,13 +37,9 @@ class ScenarioBroceliande extends Scenario {
                 (new Theme('night'))
                     .setBackground('bkg_night')
                     .setText(
-                        "Il fait maintenant nuit...\n" +
+                        "Il fait à présent nuit.\n" +
                         "\n" +
-                        "Vous devez défausser les cartes \n" +
-                        "#CARD_DEL[4] et #CARD_DEL[9]\n" +
-                        "\n" +
-                        "et prendre les cartes\n" +
-                        "#CARD_ADD[5] et #CARD_ADD[10]"
+                        "Dehors tout est noir... \n"
                     )
             )
 
@@ -52,13 +48,13 @@ class ScenarioBroceliande extends Scenario {
             .setButtonPause(     new Button(new Size(180, 180), new Position(285, 500),  'btn_pause'))
             .setButtonPlay(      new Button(new Size(180, 180), new Position(285, 500),  'btn_play'))
             .setButtonPenalty(   new Button(new Size(180, 180), new Position(285, 760),  'btn_penalty'))
-            .setButtonHelp(      new Button(new Size(180, 180), new Position(285, 1020), 'btn_help'))
-            .setButtonCode(      new Button(new Size(180, 180), new Position(35, 760),   'btn_code'))
-            .setButtonMachine(   new Button(new Size(180, 180), new Position(535, 760),  'btn_machine'))
+            .setButtonHelp(      new Button(new Size(180, 180), new Position(35, 760),   'btn_help'))
+            .setButtonCode(      new Button(new Size(180, 180), new Position(535, 760),  'btn_code'))
+            .setButtonMachine(   new Button(new Size(180, 180), new Position(285, 1020), 'btn_machine'))
 
             .setTimer(
-                (new Timer(600, true))
-                    .setDisplay('bkg_timer', new Size(560, 232), new Position(85, 160), 160)
+                (new Timer(30*60, true))
+                    .setDisplay('bkg_timer', new Size(560, 329), new Position(85, 160), 160)
             )
 
             .setKeyboard(
