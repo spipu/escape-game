@@ -69,6 +69,21 @@ class ScenarioBroceliande extends Scenario {
                 new Help('20', "Avez-vous bien regardé\nde plus près le coffre ?")
                     .addHelp("Sur le coffre est caché\nle numéro 19.\n\nPrenez la carte #CARD_ADD[19]")
             )
+            .addHelp(
+                new Help('19', "Retournez la carte.\n\nPeut-être y verrez-vous\nplus claire...")
+                    .addHelp("Dans cette suite de symboles,\ncachez certaines parties\njusqu'à y voir un nombre\nà quatre chiffres.")
+                    .addHelp("Tapez le code 1352.")
+            )
+            .addHelp(
+                new Help('14', "C=A\n\nE=C\n\nG=E")
+                    .addHelp("Conseil : pour vous aidez,\nécrivez l'alphabet.\n\nRemonter ensuite deux\nlettres en arrière.")
+                    .addHelp("En suivant la méthode,\nle texte dit :\n\nCe ne sont pas les chapeaux\nqui interessent les Korrigans\nmais les objets de valeurs.")
+            )
+            .addHelp(
+                new Help('16', "Si vous n'avez pas de clé,\npeut-être l'avez-vous\nloupé quelque part.")
+                    .addHelp("Faites demi-tour :\nquelque chose parait briller\nau fond de l'eau de la fontaine.")
+                    .addHelp("Dans l'eau de la fontaine\nse cache le numéro 2\nqui correspond à la clé.\n\nFaites alors #CARD_ADD[16] + #CARD_ADD[2]\n\nPrenez la carte #CARD_ADD[18]")
+            )
     }
 
     initEvents(actions) {
