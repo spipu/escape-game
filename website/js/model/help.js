@@ -1,6 +1,6 @@
 class Help {
-    /** @type {string} */ code;
-    /** @type {string} */ text;
+    /** @type {string}   */ code;
+    /** @type {string[]} */ helps;
 
     /**
      * @param {string} code
@@ -8,6 +8,16 @@ class Help {
      */
     constructor(code, text) {
         this.code = code;
-        this.text = text;
+        this.helps = [];
+        this.addHelp(text);
+    }
+
+    /**
+     * @param {string} text
+     * @return {Help}
+     */
+    addHelp(text) {
+        this.helps[this.helps.length] = text;
+        return this;
     }
 }

@@ -191,8 +191,12 @@ class Keyboard {
         for (let key in this.buttons) {
             this.display.removeButton(this.buttons[key]);
         }
-        this.display.removeSprite(this.sprite);
-        this.overlay.remove();
+        if (this.sprite) {
+            this.display.removeSprite(this.sprite);
+        }
+        if (this.overlay) {
+            this.overlay.remove();
+        }
 
         this.overlay = null;
         this.sprite = null;

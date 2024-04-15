@@ -99,15 +99,15 @@ class Modal {
         display.addSprite(this.sprite);
 
         if (this.imageClose) {
-            this.buttons[this.buttons.length] = this.prepareButtonClose(display);
+            this.addButton(this.prepareButtonClose(display));
         }
 
         if (this.actionConfirm) {
-            this.buttons[this.buttons.length] = this.prepareButton(display, this.actionConfirm, 30);
+            this.addButton(this.prepareButton(display, this.actionConfirm, 30));
         }
 
         if (this.actionCancel) {
-            this.buttons[this.buttons.length] = this.prepareButton(display, this.actionCancel, - 30 - 250);
+            this.addButton(this.prepareButton(display, this.actionCancel, - 30 - 250));
         }
     }
 
@@ -156,6 +156,15 @@ class Modal {
         btn.htmlTag.on('click', $.proxy(function() { action.callback(this); }, this));
 
         return btn;
+    }
+
+    /**
+     * @param {Button} button
+     * @return {Modal}
+     */
+    addButton(button) {
+        this.buttons[this.buttons.length] = button;
+        return this;
     }
 
     /**

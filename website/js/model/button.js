@@ -151,8 +151,8 @@ class Button {
 
         if (this.labelTag) {
             this.labelTag
-                .css('width',  this.size.width  * display.ratio)
-                .css('left',   this.position.x  * display.ratio)
+                .css('width',  (this.size.width * 1.5) * display.ratio)
+                .css('left',   (this.position.x - this.size.width * 0.25)* display.ratio)
                 .css('top',    (this.position.y - 40)  * display.ratio)
             ;
         }

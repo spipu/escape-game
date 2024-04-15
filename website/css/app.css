@@ -188,11 +188,15 @@
 }
 
 #screen .card-del {
-    background-color: #CC3333;
+    border-radius: 100%;
+    border: solid 2px darkred;
+    background-color: lightgray;
 }
 
 #screen .card-add {
-    background-color: #33CC33;
+    border-radius: 100%;
+    border: solid 2px darkgreen;
+    background-color: lightgray;
 }
 
 #screen .keyboard {

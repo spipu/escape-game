@@ -22,6 +22,7 @@ class ScenarioBroceliande extends Scenario {
             .addResourceImage('btn_machine',    'action_machine.png')
 
             .addResourceImage('kb_background', 'keyboard_background.png')
+            .addResourceImage('btn_grey',      'btn_grey.png')
             .addResourceImage('btn_blue',      'btn_blue.png')
             .addResourceImage('btn_green',     'btn_green.png')
             .addResourceImage('btn_red',       'btn_red.png')
@@ -29,10 +30,8 @@ class ScenarioBroceliande extends Scenario {
 
             .setBackgroundModalParameters('bkg_params')
             .setBackgroundModalText('bkg_modal_small')
-            .addTheme(
-                (new Theme('main'))
-                    .setBackground('bkg_main')
-            )
+
+            .addTheme((new Theme('main')).setBackground('bkg_main'))
             .addTheme(
                 (new Theme('night'))
                     .setBackground('bkg_night')
@@ -52,25 +51,23 @@ class ScenarioBroceliande extends Scenario {
             .setButtonCode(      new Button(new Size(180, 180), new Position(535, 760),  'btn_code'))
             .setButtonMachine(   new Button(new Size(180, 180), new Position(285, 1020), 'btn_machine'))
 
-            .setTimer(
-                (new Timer(30*60, true))
-                    .setDisplay('bkg_timer', new Size(560, 329), new Position(85, 160), 160)
-            )
+            .setTimer((new Timer(30*60, true)).setDisplay('bkg_timer', new Size(560, 329), new Position(85, 120), 160))
 
-            .setKeyboard(
-                new Keyboard('kb_background', 'btn_blue', 'btn_green', 'btn_red', 'btn_close')
-            )
+            .setKeyboard(new Keyboard('kb_background', 'btn_blue', 'btn_green', 'btn_red', 'btn_close'))
 
-            .setStepOpening(
-                (new StepOpening())
-                    .setTimeStartDirectly(true)
-            )
+            .setStepOpening((new StepOpening()).setTimeStartDirectly(true))
             .setInitCallback($.proxy(this.initEvents, this))
+
+            .addHelp(new Help('6', "Sans ses piles,\nla lampe ne peut fonctionner\npour le moment."))
+            .addHelp(
+                new Help('20', "Avez-vous bien regardé\nde plus près le coffre ?")
+                    .addHelp("Sur le coffre est caché\nle numéro 19.\n\nPrenez la carte #CARD_ADD[19]")
+            )
     }
 
     initEvents(actions) {
         actions.state.addEvent(
-            60,
+            6*60,
             $.proxy(function() { this.eventNight(actions); }, this)
         );
     }
