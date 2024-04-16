@@ -28,6 +28,16 @@ class ScenarioBroceliande extends Scenario {
             .addResourceImage('btn_red',       'btn_red.png')
             .addResourceImage('btn_orange',    'btn_orange.png')
 
+            .addResourceImage('machine_background', 'machine_background.jpg')
+            .addResourceImage('machine_btn_1',      'machine_btn_1.png')
+            .addResourceImage('machine_btn_2',      'machine_btn_2.png')
+            .addResourceImage('machine_btn_3',      'machine_btn_3.png')
+            .addResourceImage('machine_btn_4',      'machine_btn_4.png')
+            .addResourceImage('machine_btn_5',      'machine_btn_5.png')
+            .addResourceImage('machine_btn_6',      'machine_btn_6.png')
+            .addResourceImage('machine_btn_7',      'machine_btn_7.png')
+            .addResourceImage('machine_btn_8',      'machine_btn_8.png')
+
             .addResourceSound('music_main',    'music_main.mp3',    0.50)
             .addResourceSound('music_night',   'music_night.mp3',   1.00)
             .addResourceSound('sound_alert',   'sound_alert.mp3',   0.15)
