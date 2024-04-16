@@ -28,19 +28,28 @@ class ScenarioBroceliande extends Scenario {
             .addResourceImage('btn_red',       'btn_red.png')
             .addResourceImage('btn_orange',    'btn_orange.png')
 
+            .addResourceSound('music_main',    'music_main.mp3',    1.00)
+            .addResourceSound('music_night',   'music_night.mp3',   1.00)
             .addResourceSound('sound_alert',   'sound_alert.mp3',   0.15)
             .addResourceSound('sound_bad',     'sound_bad.mp3',     0.10)
             .addResourceSound('sound_click',   'sound_click.mp3',   1.00)
-            .addResourceSound('sound_good',    'sound_good.mp3',    0.50)
+            .addResourceSound('sound_good',    'sound_good.mp3',    0.80)
             .addResourceSound('sound_timeout', 'sound_timeout.mp3', 0.50)
+            .addResourceSound('sound_wolf',    'sound_wolf.mp3',    0.50)
 
             .setBackgroundModalParameters('bkg_params')
             .setBackgroundModalText('bkg_modal_small')
             .setSounds('sound_click', 'sound_good', 'sound_bad', 'sound_alert', 'sound_timeout')
-            .addTheme((new Theme('main')).setBackground('bkg_main'))
+            .addTheme(
+                (new Theme('main'))
+                    .setBackground('bkg_main')
+                    .setMusic('music_main')
+            )
             .addTheme(
                 (new Theme('night'))
                     .setBackground('bkg_night')
+                    .setMusic('music_night')
+                    .setSound('sound_wolf')
                     .setText(
                         "Il fait à présent nuit.\n" +
                         "\n" +
@@ -129,13 +138,28 @@ class ScenarioBroceliande extends Scenario {
                     .addHelp("Sur la carte 39, les lignes\nsont numérotées et les\ncases de la carte 37 aussi.\n\nLes formes de la carte 37\nsemblent être un assemblage\nde plusieurs formes simples.")
                     .addHelp("1. 2e ligne / 2e symbole\n2. 1ère ligne / 1er symbole\n3. 2e ligne / 3e symbole\n4. 3e ligne / 1er symbole")
             )
-
+            .addStepCode(
+                (new StepCode('1352'))
+                    .setText("Bravo !\nLe coffre s'ouvre.\n\nPrenez les cartes\n#CARD_ADD[5] et #CARD_ADD[25]")
+            )
+            .addStepCode(
+                (new StepCode('1069'))
+                    .setText("La porte s'ouvre et vous\ny découvrez une nouvelle pièce.\n\nPrenez la carte #CARD_ADD[30]")
+            )
     }
 
     initEvents(actions) {
-        actions.state.addEvent(
-            6*60,
-            $.proxy(function() { this.eventNight(actions); }, this)
+        window.addEventListener(
+            'escape-game.code.good',
+            (e) => {
+                if (e.detail.stepCode === '1069') {
+                    actions.state.addEvent(
+                        60,
+                        $.proxy(function() { this.eventNight(actions); }, this)
+                    );
+                }
+            },
+            false
         );
     }
 

@@ -20,7 +20,6 @@ class Launcher {
 
     start() {
         this.displayMenu();
-        // this.startGame('broceliande');
     }
 
     displayMenu() {
