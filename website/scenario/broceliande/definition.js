@@ -156,6 +156,23 @@ class ScenarioBroceliande extends Scenario {
                 (new StepCode('1069'))
                     .setText("La porte s'ouvre et vous\ny découvrez une nouvelle pièce.\n\nPrenez la carte #CARD_ADD[30]")
             )
+            .addStepMachine(
+                (new StepMachine('21'))
+                    .setCallbackStartMachine(
+                        function (code, actions) {
+                            (new MachineCode(code, actions))
+                                .setBackgroundImage('machine_background')
+                                .setButtonCloseImage('btn_close')
+                                .setButtonConfirmImage('btn_green')
+                                .setButtonCancelImage('btn_grey')
+                                .addStepCode(
+                                    (new StepCode('1234'))
+                                        .setText("C'est ca")
+                                )
+                                .start();
+                        }
+                    )
+                )
     }
 
     initEvents(actions) {

@@ -7,6 +7,8 @@ class AbstractMachine extends AbstractAction {
     /** @type {string|null}    */ helpMessage;
     /** @type {StepCode[]}     */ results;
     /** @type {string}         */ btnCloseImage;
+    /** @type {string}         */ btnCancelImage;
+    /** @type {string}         */ btnConfirmImage;
 
     constructor(code, actions) {
         super(actions);
@@ -28,8 +30,23 @@ class AbstractMachine extends AbstractAction {
     }
 
     /**
+     * @param {string} image
+     */
+    setButtonCancelImage(image) {
+        this.btnCancelImage = image;
+        return this;
+    }
+
+    /**
+     * @param {string} image
+     */
+    setButtonConfirmImage(image) {
+        this.btnConfirmImage = image;
+        return this;
+    }
+
+    /**
      * @param {ButtonSwitch} buttonSwitch
-     * @return {AbstractMachine}
      */
     addButtonSwitch(buttonSwitch) {
         this.buttonSwitches[this.buttonSwitches.length] = buttonSwitch;
@@ -38,7 +55,6 @@ class AbstractMachine extends AbstractAction {
 
     /**
      * @param {StepCode} stepCode
-     * @return {AbstractMachine}
      */
     addStepCode(stepCode) {
         this.results[stepCode.code] = stepCode;
@@ -47,7 +63,6 @@ class AbstractMachine extends AbstractAction {
 
     /**
      * @param {string} message
-     * @return {AbstractMachine}
      */
     setHelpMessage(message) {
         this.helpMessage = message;
@@ -96,6 +111,41 @@ class AbstractMachine extends AbstractAction {
         let btn = new Button(new Size(100, 100), new Position(635, 15), this.btnCloseImage);
         this.display.addButton(btn)
         btn.htmlTag.on('click', $.proxy(this.stop, this));
+
+        this.buttons[this.buttons.length] = btn;
+    }
+
+
+    displayButtonReset(size, delta, fontsize) {
+        let btn = new Button(
+            new Size(size, size),
+            new Position(delta, this.display.height - delta - size),
+            this.btnCancelImage
+        );
+        this.display.addButton(btn)
+        btn.htmlTag.text('C');
+        btn.htmlTag.css('font-size', fontsize);
+        btn.htmlTag.on(
+            'click',
+            $.proxy(this.resetButtonSwitches, this)
+        );
+
+        this.buttons[this.buttons.length] = btn;
+    }
+
+    displayButtonConfirm(size, delta, fontsize) {
+        let btn = new Button(
+            new Size(size, size),
+            new Position(this.display.width - delta - size, this.display.height - delta - size),
+            this.btnConfirmImage
+        );
+        this.display.addButton(btn)
+        btn.htmlTag.text('OK');
+        btn.htmlTag.css('font-size', fontsize);
+        btn.htmlTag.on(
+            'click',
+            $.proxy(function () { this.executeMachine(this.getButtonSwitchesValue()); }, this)
+        );
 
         this.buttons[this.buttons.length] = btn;
     }

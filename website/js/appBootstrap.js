@@ -57,6 +57,7 @@ class AppBootstrap {
             '/js/machine/abstractMachine.js',
             '/js/machine/machineConnector.js',
             '/js/machine/machineDigicode.js',
+            '/js/machine/machineCode.js',
             '/scenario/tutorial/definition.js',
             '/scenario/broceliande/definition.js',
             '/scenario/home/definition.js',
