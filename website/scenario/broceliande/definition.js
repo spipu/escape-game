@@ -28,7 +28,7 @@ class ScenarioBroceliande extends Scenario {
             .addResourceImage('btn_red',       'btn_red.png')
             .addResourceImage('btn_orange',    'btn_orange.png')
 
-            .addResourceSound('music_main',    'music_main.mp3',    1.00)
+            .addResourceSound('music_main',    'music_main.mp3',    0.50)
             .addResourceSound('music_night',   'music_night.mp3',   1.00)
             .addResourceSound('sound_alert',   'sound_alert.mp3',   0.15)
             .addResourceSound('sound_bad',     'sound_bad.mp3',     0.10)
