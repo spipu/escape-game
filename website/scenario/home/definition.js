@@ -24,6 +24,7 @@ class ScenarioHome extends Scenario {
             .addResourceImage('btn_blue',      'btn_blue.png')
             .addResourceImage('btn_green',     'btn_green.png')
             .addResourceImage('btn_red',       'btn_red.png')
+            .addResourceImage('btn_grey',      'btn_grey.png')
             .addResourceImage('btn_orange',    'btn_orange.png')
 
             .addResourceImage('machine_connector', 'bkg_machine_connector.jpg')
@@ -62,7 +63,12 @@ class ScenarioHome extends Scenario {
                     )
             )
 
-            .addHelp(new Help('11', "Serait-ce pour ouvrir une trappe ?"))
+            .addHelp(
+                new Help('11', "Serait-ce pour ouvrir une trappe ?")
+                    .addHelp('Il y a une trappe juste à côté\nde là où vous avez trouvez\ncette carte')
+                    .addHelp("Juste à gauche des toilettes,\nmais comment l'ouvrir ?")
+                    .addHelp('Poussez les coins indiqués pour ouvrir la trappe.')
+            )
             .addHelp(new Help('13', "On dirait un programme\nde lave-linge."))
             .addHelp(new Help('19', "Où pouvez-vous trouver\nun code à 3 chiffres ?"))
             .addHelp(new Help('21', "Il faut 4 chiffres,\n peut-être une année ?"))
@@ -77,12 +83,21 @@ class ScenarioHome extends Scenario {
             .addHelp(new Help('34', "Pauvre Cendrillon,\n\ntoute seule dans\nla tour de son château..."))
             .addHelp(new Help('41', "Une forte odeur se dégage\nde cette porte.\n\n#ICON[fa-solid fa-poo fa-3x]\n\nIl vaut mieux de pas l'ouvrir..."))
             .addHelp(new Help('42', "Cette porte est vraiment fermée.\nCela ne sert à rien d'insister..."))
-            .addHelp(new Help('49', "Un code à 6 chiffres en 3 parties ?\nUne date importante peut-être ?"))
+            .addHelp(
+                new Help('49', "Un code à 6 chiffres en 3 parties ?\nUne date importante peut-être ?")
+                    .addHelp("Cherchez dans la pièce principale des indices sur une date importante.")
+                    .addHelp("Cherchez la date du mariage.")
+                    .addHelp("Le code est 010709")
+            )
             .addHelp(new Help('51', "Il faut utiliser quelque chose\npour pouvoir le lire."))
             .addHelp(new Help('53', "Mais pour ouvrir quoi ?\n\nDans la cuisine peut-être..."))
             .addHelp(new Help('55', "Quel symbole doit-on faire\npour ouvrir cette porte ?"))
             .addHelp(new Help('57', "Il y a un souvenir\nd'une réunion de famille\ndans cette pièce ?"))
-            .addHelp(new Help('59', "C'était un très bel anniversaire\n\nMais quelle était la\ndate du mariage ?"))
+            .addHelp(
+                new Help('59', "C'était un très bel anniversaire\n\nMais quelle était la\ndate du mariage ?")
+                    .addHelp("Si l'anniversaire était en 2019\nEn quelle année était le mariage ?")
+                    .addHelp("Le mariage était donc en 2019")
+            )
 
             .addStepMachine(this.createStepDigicode('19', 3, '314'))
             .addStepMachine(this.createStepDigicode('21', 4, '2018'))
