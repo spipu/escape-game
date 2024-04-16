@@ -187,6 +187,12 @@
     padding-right: 5%;
 }
 
+#screen .card-info {
+    border-radius: 100%;
+    border: solid 2px dimgrey;
+    background-color: lightgray;
+}
+
 #screen .card-del {
     border-radius: 100%;
     border: solid 2px darkred;

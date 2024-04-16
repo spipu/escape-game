@@ -40,6 +40,7 @@ class Modal {
         message = message.replaceAll(/#ICON\[([^\]]+)\]/gi,        '<i class="$1"></i>');
         message = message.replaceAll(/#PUZZLE_RED\[([^\]]+)\]/gi,  '<div class="puzzle puzzle-red"><i class="fa-solid fa-puzzle-piece"></i> $1</div>');
         message = message.replaceAll(/#PUZZLE_BLUE\[([^\]]+)\]/gi, '<div class="puzzle puzzle-blue"><i class="fa-solid fa-puzzle-piece"></i> $1</div>');
+        message = message.replaceAll(/#CARD\[([^\]]+)\]/gi,        '<span class="card card-info">$1</span>');
         message = message.replaceAll(/#CARD_DEL\[([^\]]+)\]/gi,    '<span class="card card-del">$1</span>');
         message = message.replaceAll(/#CARD_ADD\[([^\]]+)\]/gi,    '<span class="card card-add">$1</span>');
 
