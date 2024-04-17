@@ -3,7 +3,8 @@ Private Licence - Scenario Broceliande
 
 Copyright © 2024 ElsaC.
 
-This licence file concerns the following resources:
+You are **not** allowed to modify, merge, publish, reuse, distribute, sublicense, and/or sell
+copies of the following resources:
 
 * ./image/action_close.png
 * ./image/action_code.png
@@ -36,6 +37,3 @@ This licence file concerns the following resources:
 * ./image/timer.png
 * ./sound/music_night.mp3
 * ./definition.js
-
-You are **not** allowed to modify, merge, publish, reuse, distribute, sublicense, and/or sell
-copies of these resources.
