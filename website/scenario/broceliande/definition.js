@@ -179,7 +179,7 @@ class ScenarioBroceliande extends Scenario {
                                 .addSlotCode(new Size(170, 170), new Position(560, 330))
                                 .addStepCode(
                                     (new StepCode('5167'))
-                                        .setText("C'est ça")
+                                        .setText("Bravo !\n\nAprès avoir fait\nla bonne combinaison,\nViviane, la fée du lac\ndu château de Comper apparaît.\n\nPrenez la carte #CARD_ADD[1]")
                                 )
                                 .start();
                         }
