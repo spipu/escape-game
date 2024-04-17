@@ -32,7 +32,7 @@ class ScenarioTutorial extends Scenario {
             .addResourceSound('sound_alert',   'sound_alert.mp3',   0.15)
             .addResourceSound('sound_bad',     'sound_bad.mp3',     0.10)
             .addResourceSound('sound_click',   'sound_click.mp3',   1.00)
-            .addResourceSound('sound_good',    'sound_good.mp3',    0.50)
+            .addResourceSound('sound_good',    'sound_good.mp3',    0.80)
             .addResourceSound('sound_timeout', 'sound_timeout.mp3', 0.50)
 
             .setBackgroundModalParameters('bkg_params')
