@@ -4,7 +4,7 @@ This is a pure French project, sorry no english doc...
 
 ## Description
 
-Ce projet permet de créer des scénarios d'escape game à jouer avec des cartes que vous devez créer, du type [Unlock](https://www.spacecowboys.fr/unlock).
+Ce projet permet de créer des scénarios d'escape game à jouer avec des cartes que vous devez créer, du type Unlock.
 
 Vous pouvez également l'utiliser comme support pour créer de vrais escapes games.
 
