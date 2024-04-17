@@ -47,6 +47,11 @@ class Timer {
         this.refresh(state);
     }
 
+    stop(display) {
+        display.removeSprite(this.sprite);
+        this.sprite = null;
+    }
+
     /**
      * @param {GameState} state
      */

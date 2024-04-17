@@ -26,13 +26,35 @@ class GameDisplay {
         this.maxSpriteId = 0;
         this.screen = $('#screen');
         this.screen.empty();
-
-        this.screen.addClass('scenario-' + resource.scenario.code);
+        this.resizeProxy = $.proxy(this.resizeWait, this);
     }
 
     init() {
+        this.screen.addClass('scenario-' + this.resource.scenario.code);
+
         this.resize();
-        window.onresize = $.proxy(this.resizeWait, this);
+        window.addEventListener('resize', this.resizeProxy);
+    }
+
+    reset() {
+        window.removeEventListener('resize', this.resizeProxy);
+
+        this.timer.stop(this);
+
+        for (let key = 0; key < this.maxButtonId; key ++) {
+            if (this.buttons[key]) {
+                this.buttons[key].remove(this);
+            }
+        }
+
+        for (let key = 0; key < this.maxSpriteId; key ++) {
+            if (this.sprites[key]) {
+                this.sprites[key].remove(this);
+            }
+        }
+
+        this.resource.removeImage(this.screen);
+        this.screen.removeClass('scenario-' + this.resource.scenario.code);
     }
 
     resizeWait() {

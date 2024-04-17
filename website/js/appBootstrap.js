@@ -4,6 +4,7 @@ class AppBootstrap {
     /** @type {string[]}   */ jsFiles;
     /** @type {int}        */ currentCssFile;
     /** @type {int}        */ currentJsFile;
+    /** @type {ScreenWakeLock} */ screenWakeLock;
 
     constructor() {
         this.cssFiles = [
@@ -148,11 +149,22 @@ class AppBootstrap {
     }
 
     ready() {
+        this.initScreenWakeLock();
+        this.runLauncher();
+    }
+
+    initScreenWakeLock() {
+        this.screenWakeLock = new ScreenWakeLock();
+        this.screenWakeLock.init();
+    }
+
+    runLauncher() {
         (new Launcher(this.version))
             .addScenario(new ScenarioTutorial())
             .addScenario(new ScenarioBroceliande())
             .addScenario(new ScenarioHome())
             .start()
+        ;
     }
 }
 

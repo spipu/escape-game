@@ -5,7 +5,6 @@ class Game {
     /** @type {GameResource}   */ resource;
     /** @type {GameState}      */ state;
     /** @type {Actions}        */ actions;
-    /** @type {ScreenWakeLock} */ screenWakeLock;
 
     /**
      * @param {Scenario}   scenario
@@ -19,7 +18,6 @@ class Game {
         this.resource = new GameResource(scenario, this.state, version);
         this.display  = new GameDisplay(this.resource);
         this.actions  = new Actions(this.display, this.scenario, this.state);
-        this.screenWakeLock = new ScreenWakeLock();
     }
 
     start() {
@@ -61,10 +59,24 @@ class Game {
 
         this.actions.pause.execute();
 
-        this.screenWakeLock.init();
         if (this.scenario.initCallback) {
             this.scenario.initCallback(this.actions);
         }
+
+        window.addEventListener(
+            'escape-game.close',
+            (e) => {
+                this.stop();
+            },
+            false
+        );
+    }
+
+    stop() {
+        this.display.resource.pauseMusic();
+        this.state.stop();
+        this.display.reset();
+        setTimeout(function() { window.location.reload(); }, 50);
     }
 
     addActionOnButton(button, action) {
