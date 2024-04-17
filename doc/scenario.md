@@ -24,7 +24,7 @@ class ScenarioExample extends Scenario {
 * modifier le fichier `./website/js/appBootstrap.js` pour
 
   * rajouter le chargement du nouveau fichier js que vous venez de créer dans la variable `jsFiles`
-  * rajouter le scénario à la liste des scénarios disponibles dans la fonction `launchApp`
+  * rajouter le scénario à la liste des scénarios disponibles dans la fonction `runLauncher`
 
 * compléter votre fichier de définition avec votre scénario en vous aidant des scénarios déjà existants.
 
