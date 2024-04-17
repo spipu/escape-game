@@ -29,8 +29,6 @@ class ScenarioTutorial extends Scenario {
             .addResourceImage('machine_connector', 'bkg_machine_connector.jpg')
             .addResourceImage('machine_digicode',  'bkg_machine_digicode.jpg')
 
-            .addResourceSound('music_intro',   'music_free.mp3',       0.40)
-            .addResourceSound('music_main',    'music_moonwisper.mp3', 0.40)
             .addResourceSound('sound_alert',   'sound_alert.mp3',   0.15)
             .addResourceSound('sound_bad',     'sound_bad.mp3',     0.10)
             .addResourceSound('sound_click',   'sound_click.mp3',   1.00)
@@ -43,7 +41,6 @@ class ScenarioTutorial extends Scenario {
             .addTheme(
                 (new Theme('main'))
                     .setBackground('bkg_main')
-                    .setMusic('music_main')
             )
 
             .setButtonClose(     new Button(new Size(100, 100), new Position(635, 15),   'btn_close'))
@@ -66,7 +63,6 @@ class ScenarioTutorial extends Scenario {
 
             .setStepOpening(
                 (new StepOpening())
-                    .setMusic('music_intro')
                     .setTimeStartDirectly(false)
                     .addText(
                         "Vous passez un entretien\n" +
