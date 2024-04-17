@@ -173,12 +173,21 @@ class ScenarioBroceliande extends Scenario {
 
             .addStepCode(
                 (new StepCode('1352'))
-                    .setText("Bravo !\nLe coffre s'ouvre.\n\nPrenez les cartes\n#CARD_ADD[5] et #CARD_ADD[25]")
+                    .setText("Bravo !\nLe coffre s'ouvre.\n\nDéfaussez les cartes\n#CARD_ADD[52] et #CARD_ADD[19]\n\nPrenez les cartes\n#CARD_ADD[5] et #CARD_ADD[25]")
             )
             .addStepCode(
                 (new StepCode('1069'))
-                    .setText("La porte s'ouvre et vous\ny découvrez une nouvelle pièce.\n\nPrenez la carte #CARD_ADD[30]")
+                    .setText("La porte s'ouvre et vous\ny découvrez une nouvelle pièce.\n\nDéfaussez les cartes\n#CARD_ADD[17] et #CARD_ADD[33]\n\nPrenez la carte\n#CARD_ADD[30]")
             )
+            .addStepCode(
+                (new StepCode('5183'))
+                    .setText("C'est bon !\nLe cercueil s'ouvre !\n\nDéfaussez les cartes\n#CARD_ADD[25], #CARD_ADD[23], #CARD_ADD[28], #CARD_ADD[51] et #CARD_ADD[53]\n\nPrenez la carte\n#CARD_ADD[20]")
+            )
+            .addStepCode(
+                (new StepCode('8436'))
+                    .setEnd('good')
+            )
+
             .addStepMachine(
                 (new StepMachine('37'))
                     .setCallbackStartMachine(
@@ -202,12 +211,17 @@ class ScenarioBroceliande extends Scenario {
                                 .addSlotCode(new Size(170, 170), new Position(560, 330))
                                 .addStepCode(
                                     (new StepCode('5167'))
-                                        .setText("Bravo !\n\nAprès avoir fait\nla bonne combinaison,\nViviane, la fée du lac\ndu château de Comper apparaît.\n\nPrenez la carte #CARD_ADD[1]")
+                                        .setText("Bravo !\n\nAprès avoir fait\nla bonne combinaison,\nViviane, la fée du lac\ndu château de Comper, apparaît.\n\nDéfaussez les cartes\n#CARD_ADD[39] et #CARD_ADD[37]\n\nPrenez la carte #CARD_ADD[1]")
                                 )
                                 .start();
                         }
                     )
                 )
+            .addStepEnding(
+                (new StepEnding('good'))
+                    .setIsGood(true)
+                    .setText("Sans même vous en rendre compte, vous atterrissez chez vous. Bravo, vous avez réussi à rentrer !")
+            )
     }
 
     initEvents(actions) {
