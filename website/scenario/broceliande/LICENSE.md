@@ -3,7 +3,7 @@ Private Licence - Scenario Broceliande
 
 Copyright © 2024 ElsaC.
 
-This licence file concerne the following resources:
+This licence file concerns the following resources:
 
 * ./image/action_close.png
 * ./image/action_code.png
