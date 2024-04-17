@@ -10,6 +10,6 @@ Je précise que les données du scénario sont fictives et ne sont donc pas rée
 
 ## License
 
-Ce scénario et ses ressources sont distribuées sous licence MIT.
+Ce scénario et ses ressources sont distribués sous licence MIT.
 
 Pour plus d'information, lisez le fichier [./LICENSE.md](./LICENSE.md).

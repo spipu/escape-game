@@ -6,6 +6,6 @@ Ce scénario est un tutoriel à utiliser avec les cartes Tutoriel d'un jeu Unloc
 
 ## License
 
-Ce scénario et ses ressources sont distribuées sous licence MIT.
+Ce scénario et ses ressources sont distribués sous licence MIT.
 
 Pour plus d'information, lisez le fichier [./LICENSE.md](./LICENSE.md).
