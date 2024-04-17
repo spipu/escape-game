@@ -16,6 +16,7 @@ class AppBootstrap {
         this.jsFiles = [
             '/js/model/action.js',
             '/js/model/button.js',
+            '/js/model/buttonCode.js',
             '/js/model/buttonSwitch.js',
             '/js/model/keyboard.js',
             '/js/model/help.js',

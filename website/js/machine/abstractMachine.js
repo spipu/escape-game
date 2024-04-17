@@ -4,11 +4,21 @@ class AbstractMachine extends AbstractAction {
     /** @type {Sprite[]}       */ sprites;
     /** @type {Button[]}       */ buttons;
     /** @type {ButtonSwitch[]} */ buttonSwitches;
+    /** @type {ButtonCode[]}   */ buttonCodes;
     /** @type {string|null}    */ helpMessage;
     /** @type {StepCode[]}     */ results;
     /** @type {string}         */ btnCloseImage;
     /** @type {string}         */ btnCancelImage;
     /** @type {string}         */ btnConfirmImage;
+    /** @type {string}         */ backgroundImage;
+
+    /**
+     * @param {string} image
+     */
+    setBackgroundImage(image) {
+        this.backgroundImage = image;
+        return this;
+    }
 
     constructor(code, actions) {
         super(actions);
@@ -17,6 +27,7 @@ class AbstractMachine extends AbstractAction {
         this.sprites = [];
         this.buttons = [];
         this.buttonSwitches = [];
+        this.buttonCodes = [];
         this.helpMessage = null;
         this.results = [];
     }
@@ -54,6 +65,17 @@ class AbstractMachine extends AbstractAction {
     }
 
     /**
+     * @param {string}   code
+     * @param {string}   image
+     * @param {Size}     size
+     * @param {Position} position
+     */
+    addButtonCode(code, image, size, position) {
+        this.buttonCodes[this.buttonCodes.length] = new ButtonCode(code, image, position, size);
+        return this;
+    }
+
+    /**
      * @param {StepCode} stepCode
      */
     addStepCode(stepCode) {
@@ -75,6 +97,7 @@ class AbstractMachine extends AbstractAction {
 
     stop() {
         this.removeButtonSwitches();
+        this.removeButtonCodes();
         this.removeButtons();
         this.removeSprites();
         this.removeBackground();
@@ -150,17 +173,37 @@ class AbstractMachine extends AbstractAction {
         this.buttons[this.buttons.length] = btn;
     }
 
+    displaySprites() {
+        for (let key in this.sprites) {
+            this.display.addSprite(this.sprites[key]);
+        }
+    }
+
     displayButtonSwitches() {
         for (let key in this.buttonSwitches) {
             this.buttonSwitches[key].add(this.display);
         }
     }
 
+    displayButtonCodes() {
+        for (let key in this.buttonCodes) {
+            this.buttonCodes[key].add(this.display);
+        }
+    }
+
+
     removeButtonSwitches() {
         for (let key in this.buttonSwitches) {
             this.buttonSwitches[key].remove(this.display);
         }
         this.buttonSwitches = [];
+    }
+
+    removeButtonCodes() {
+        for (let key in this.buttonCodes) {
+            this.buttonCodes[key].remove(this.display);
+        }
+        this.buttonCodes = [];
     }
 
     resetButtonSwitches() {

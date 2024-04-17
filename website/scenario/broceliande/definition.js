@@ -157,7 +157,7 @@ class ScenarioBroceliande extends Scenario {
                     .setText("La porte s'ouvre et vous\ny découvrez une nouvelle pièce.\n\nPrenez la carte #CARD_ADD[30]")
             )
             .addStepMachine(
-                (new StepMachine('21'))
+                (new StepMachine('1'))
                     .setCallbackStartMachine(
                         function (code, actions) {
                             (new MachineCode(code, actions))
@@ -165,6 +165,18 @@ class ScenarioBroceliande extends Scenario {
                                 .setButtonCloseImage('btn_close')
                                 .setButtonConfirmImage('btn_green')
                                 .setButtonCancelImage('btn_grey')
+                                .addButtonCode('1', 'machine_btn_1', new Size(180, 180), new Position( 40, 580))
+                                .addButtonCode('2', 'machine_btn_2', new Size(180, 180), new Position(280, 560))
+                                .addButtonCode('3', 'machine_btn_3', new Size(180, 180), new Position(530, 550))
+                                .addButtonCode('4', 'machine_btn_4', new Size(180, 180), new Position( 30, 830))
+                                .addButtonCode('5', 'machine_btn_5', new Size(180, 180), new Position(240, 800))
+                                .addButtonCode('6', 'machine_btn_6', new Size(180, 180), new Position(470, 780))
+                                .addButtonCode('7', 'machine_btn_7', new Size(180, 180), new Position(195,1020))
+                                .addButtonCode('8', 'machine_btn_8', new Size(180, 180), new Position(445,1025))
+                                .addSlotCode(new Size(170, 170), new Position( 24, 342))
+                                .addSlotCode(new Size(170, 170), new Position(204, 334))
+                                .addSlotCode(new Size(170, 170), new Position(380, 333))
+                                .addSlotCode(new Size(170, 170), new Position(560, 330))
                                 .addStepCode(
                                     (new StepCode('1234'))
                                         .setText("C'est ca")

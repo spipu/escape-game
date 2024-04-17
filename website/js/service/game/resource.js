@@ -61,6 +61,10 @@ class GameResource {
         htmlElement.css('background-image', 'url(' + this.images[imageCode].url + ')');
     }
 
+    removeImage(htmlElement) {
+        htmlElement.css('background-image', '');
+    }
+
     startMusic(soundCode) {
         this.stopMusic();
         if (soundCode) {
