@@ -69,10 +69,7 @@ class GameResource {
         this.stopMusic();
         if (soundCode) {
             this.currentMusic = soundCode;
-            this.sounds[this.currentMusic].startMusic();
-            if (!this.state.parameters.musics) {
-                this.pauseMusic();
-            }
+            this.sounds[this.currentMusic].startMusic(this.state.parameters.musics);
         }
     }
 

@@ -46,11 +46,19 @@ class ResourceSound {
         return this;
     }
 
-    startMusic() {
+    /**
+     * @param {boolean} autoPlay
+     */
+    startMusic(autoPlay = true) {
         this.player.volume(0.0);
         this.player.loop(true);
         this.playerId = this.player.play();
-        this.player.fade(0.0, this.volumeMax, 1000, this.playerId);
+        if (autoPlay) {
+            this.player.fade(0.0, this.volumeMax, 1000, this.playerId);
+        } else {
+            this.player.volume(this.volumeMax);
+            this.player.pause();
+        }
     }
 
     stopMusic() {
