@@ -48,4 +48,6 @@ No help, no support.
 
 ## License
 
-This program is distributed under the MIT License. For more information see the [./LICENSE.md](./LICENSE.md) file.
+This program, except for the resources in the folder `./website/scenario/`, is distributed under the MIT License. For more information see the [./LICENSE.md](./LICENSE.md) file.
+
+
