@@ -173,8 +173,8 @@ class ScenarioBroceliande extends Scenario {
                                 .addButtonCode('6', 'machine_btn_6', new Size(180, 180), new Position(470, 780))
                                 .addButtonCode('7', 'machine_btn_7', new Size(180, 180), new Position(195,1020))
                                 .addButtonCode('8', 'machine_btn_8', new Size(180, 180), new Position(445,1025))
-                                .addSlotCode(new Size(170, 170), new Position( 24, 342))
-                                .addSlotCode(new Size(170, 170), new Position(204, 334))
+                                .addSlotCode(new Size(170, 170), new Position( 24, 339))
+                                .addSlotCode(new Size(170, 170), new Position(204, 336))
                                 .addSlotCode(new Size(170, 170), new Position(380, 333))
                                 .addSlotCode(new Size(170, 170), new Position(560, 330))
                                 .addStepCode(
