@@ -45,7 +45,7 @@ class MachineCode extends AbstractMachine {
     }
 
     selectCode(key) {
-        if (this.codeValue.length < 4) {
+        if (this.codeValue.length < this.sprites.length) {
             this.codeValue += this.buttonCodes[key].code
             this.updateDisplay();
         }

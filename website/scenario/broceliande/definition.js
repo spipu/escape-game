@@ -157,14 +157,14 @@ class ScenarioBroceliande extends Scenario {
                     .setText("La porte s'ouvre et vous\ny découvrez une nouvelle pièce.\n\nPrenez la carte #CARD_ADD[30]")
             )
             .addStepMachine(
-                (new StepMachine('1'))
+                (new StepMachine('37'))
                     .setCallbackStartMachine(
                         function (code, actions) {
                             (new MachineCode(code, actions))
                                 .setBackgroundImage('machine_background')
                                 .setButtonCloseImage('btn_close')
                                 .setButtonConfirmImage('btn_green')
-                                .setButtonCancelImage('btn_grey')
+                                .setButtonCancelImage('btn_red')
                                 .addButtonCode('1', 'machine_btn_1', new Size(180, 180), new Position( 40, 580))
                                 .addButtonCode('2', 'machine_btn_2', new Size(180, 180), new Position(280, 560))
                                 .addButtonCode('3', 'machine_btn_3', new Size(180, 180), new Position(530, 550))
@@ -178,8 +178,8 @@ class ScenarioBroceliande extends Scenario {
                                 .addSlotCode(new Size(170, 170), new Position(380, 333))
                                 .addSlotCode(new Size(170, 170), new Position(560, 330))
                                 .addStepCode(
-                                    (new StepCode('1234'))
-                                        .setText("C'est ca")
+                                    (new StepCode('5167'))
+                                        .setText("C'est ça")
                                 )
                                 .start();
                         }
