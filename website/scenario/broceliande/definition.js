@@ -85,7 +85,7 @@ class ScenarioBroceliande extends Scenario {
 
             .addHelp(new Help('6', "Sans ses piles,\nla lampe ne peut fonctionner\npour le moment."))
             .addHelp(
-                new Help('20', "Avez-vous bien regardé\nde plus près le coffre ?")
+                new Help('52', "Avez-vous bien regardé\nde plus près le coffre ?")
                     .addHelp("Sur le coffre est caché\nle numéro 19.\n\nPrenez la carte #CARD_ADD[19]")
             )
             .addHelp(
@@ -95,12 +95,12 @@ class ScenarioBroceliande extends Scenario {
             )
             .addHelp(
                 new Help('14', "C #ICON[fa-solid fa-right-long] A\n\nE #ICON[fa-solid fa-right-long] C\n\nG #ICON[fa-solid fa-right-long] E")
-                    .addHelp("Conseil : pour vous aidez,\nécrivez l'alphabet.\n\nRemonter ensuite deux\nlettres en arrière.")
-                    .addHelp("En suivant la méthode,\nle texte dit :\n\nCe ne sont pas les chapeaux\nqui intéressent les Korrigans\nmais les objets de valeurs.")
+                    .addHelp("Conseil : pour vous aider,\nécrivez l'alphabet.\n\nRemontez ensuite deux\nlettres en arrière.")
+                    .addHelp("En suivant la méthode,\nle texte dit :\n\n\"Ce ne sont pas les chapeaux\nqui intéressent les Korrigans\nmais les objets de valeurs.\nAjoutez dix à votre objet de valeur.\"")
             )
             .addHelp(
-                new Help('16', "Si vous n'avez pas de clé,\npeut-être l'avez-vous\nloupé quelque part.")
-                    .addHelp("Faites demi-tour :\nquelque chose parait briller\nau fond de l'eau de la fontaine.")
+                new Help('16', "Si vous n'avez pas de clé,\npeut-être l'avez-vous\nloupée quelque part.")
+                    .addHelp("Faites demi-tour :\nquelque chose paraît briller\nau fond de l'eau de la fontaine.")
                     .addHelp("Dans l'eau de la fontaine\nse cache le numéro 2\nqui correspond à la clé.\n\nFaites alors #CARD_ADD[16] + #CARD_ADD[2]\n\nPrenez la carte #CARD_ADD[18]")
             )
             .addHelp(
@@ -117,7 +117,7 @@ class ScenarioBroceliande extends Scenario {
                     .addHelp("En plaçant le miroir sous le symbole,\non peut apercevoir le numéro 810\n\n\"Allumettes\" = date de sortie des allumettes.\n\nDonc 1879 - 810 = 1069\n\nTapez le code 1069.")
             )
             .addHelp(
-                new Help('49', "Objet caché:\nquelque chose semble briller dans l'herbe près du rocher")
+                new Help('49', "Objet caché:\nquelque chose semble briller dans l'herbe près du rocher.")
             )
             .addHelp(
                 new Help('24', "Si deux diamants\nvalent 24,combien vaut\nun seul diamant ?")
@@ -148,6 +148,29 @@ class ScenarioBroceliande extends Scenario {
                     .addHelp("Sur la carte 39, les lignes\nsont numérotées et les\ncases de la carte 37 aussi.\n\nLes formes de la carte 37\nsemblent être un assemblage\nde plusieurs formes simples.")
                     .addHelp("1. 2e ligne / 2e symbole\n2. 1ère ligne / 1er symbole\n3. 2e ligne / 3e symbole\n4. 3e ligne / 1er symbole")
             )
+            .addHelp(
+                new Help('47', "Pour libérer Merlin, il\nfaudrait prononcer la formule.")
+                    .addHelp("Faites 47 + 6 = 53.\n\nPrenez la carte #CARD_ADD[53]")
+            )
+
+            .addHelp(
+                new Help('53', "Vérifiez que vous avez bien\nreconstitué la carte de la forêt.\nIl faut savoir ce qui se\ncache DERRIERE chaque lieu.")
+                    .addHelp("Il faut savoir ce qui\nse cache derrière chaque\nCARTE des lieux.")
+                    .addHelp("Retournez sans changer\nl'ordre du circuit\nles cartes du plan.")
+                    .addHelp("Au dos des cartes\nse forme le code 5183.")
+            )
+
+            .addHelp(
+                new Help('20', "Il faudrait le réveiller.")
+                    .addHelp("N'y aurait-il pas une\npotion dédiée à ce problème?")
+                    .addHelp("Achetez la potion \"Révèytoi\".\nFaites 12 + 31 = 43.\n\nPrenez la carte #CARD_ADD[43]")
+            )
+
+            .addHelp(
+                new Help('43', "Avez-vous réellement besoin\nd'aide pour savoir sur QUI\nappliquer cette potion ? ")
+            )
+
+
             .addStepCode(
                 (new StepCode('1352'))
                     .setText("Bravo !\nLe coffre s'ouvre.\n\nPrenez les cartes\n#CARD_ADD[5] et #CARD_ADD[25]")
@@ -193,7 +216,7 @@ class ScenarioBroceliande extends Scenario {
             (e) => {
                 if (e.detail.stepCode === '1069') {
                     actions.state.addEvent(
-                        60,
+                        30,
                         $.proxy(function() { this.eventNight(actions); }, this)
                     );
                 }
