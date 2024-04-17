@@ -52,4 +52,4 @@ This program, except for the folder `./website/scenario/`, is distributed under 
 
 For more information see the [./LICENSE.md](./LICENSE.md) file.
 
-Each scenario in the folder ./website/scenario/` has its own `LICENSE.md` file.
+Each scenario in the folder `./website/scenario/` has its own `LICENSE.md` file.
