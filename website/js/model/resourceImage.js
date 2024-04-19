@@ -4,27 +4,24 @@ class ResourceImage {
     /** @type {string} */ url;
 
     /**
+     * @param {string} scenarioCode
      * @param {string} code
      * @param {string} filename
      */
     constructor(
+        scenarioCode,
         code,
         filename
     ) {
         this.code     = code;
         this.filename = filename;
-        this.url      = '';
+        this.url      = '/scenario/' + scenarioCode + '/image/' + this.filename;
     }
 
     /**
-     * @param {string}     scenarioCode
-     * @param {AppVersion} version
      * @return {ResourceImage}
      */
-    init(scenarioCode, version) {
-        this.url = '/scenario/' + scenarioCode + '/image/' + this.filename;
-        this.url += '?_v=' + version.currentVersion;
-
+    init() {
         $('<img/>')[0].src = this.url;
 
         return this;

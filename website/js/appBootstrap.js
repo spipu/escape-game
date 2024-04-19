@@ -1,154 +1,195 @@
 class AppBootstrap {
-    /** @type {AppVersion} */ version;
-    /** @type {string[]}   */ cssFiles;
-    /** @type {string[]}   */ jsFiles;
-    /** @type {int}        */ currentCssFile;
-    /** @type {int}        */ currentJsFile;
+    /** @type {int}            */ currentFile;
+    /** @type {Object}         */ version;
+    /** @type {boolean}        */ offline;
     /** @type {ScreenWakeLock} */ screenWakeLock;
 
     constructor() {
-        this.cssFiles = [
-            '/css/screen.css',
-            '/css/launcher.css',
-            '/css/app.css',
-            '/css/scenario/broceliande.css',
-        ];
+        if (!("serviceWorker" in navigator)) {
+            this.logError("Your browser is not compatible with this application");
+            return;
+        }
 
-        this.jsFiles = [
-            '/js/model/action.js',
-            '/js/model/button.js',
-            '/js/model/buttonCode.js',
-            '/js/model/buttonSwitch.js',
-            '/js/model/keyboard.js',
-            '/js/model/help.js',
-            '/js/model/modal.js',
-            '/js/model/modalParameters.js',
-            '/js/model/modalTextBig.js',
-            '/js/model/modalTextSmall.js',
-            '/js/model/position.js',
-            '/js/model/resourceImage.js',
-            '/js/model/resourceSound.js',
-            '/js/model/scenario.js',
-            '/js/model/size.js',
-            '/js/model/sprite.js',
-            '/js/model/stepCode.js',
-            '/js/model/stepEnding.js',
-            '/js/model/stepMachine.js',
-            '/js/model/stepOpening.js',
-            '/js/model/theme.js',
-            '/js/model/timer.js',
-            '/js/service/action/abstractAction.js',
-            '/js/service/action/actionBegin.js',
-            '/js/service/action/actionClose.js',
-            '/js/service/action/actionCode.js',
-            '/js/service/action/actionEnd.js',
-            '/js/service/action/actionHelp.js',
-            '/js/service/action/actionMachine.js',
-            '/js/service/action/actionPause.js',
-            '/js/service/action/actionParameters.js',
-            '/js/service/action/actionPenalty.js',
-            '/js/service/action/actionPlay.js',
-            '/js/service/action/actions.js',
-            '/js/service/game/resource.js',
-            '/js/service/game/state.js',
-            '/js/service/game/parameters.js',
-            '/js/service/game/display.js',
-            '/js/service/game.js',
-            '/js/service/launcher.js',
-            '/js/service/screenWakeLock.js',
-            '/js/machine/abstractMachine.js',
-            '/js/machine/machineConnector.js',
-            '/js/machine/machineDigicode.js',
-            '/js/machine/machineCode.js',
-            '/scenario/tutorial/definition.js',
-            '/scenario/broceliande/definition.js',
-            '/scenario/home/definition.js',
-        ];
-
-        this.loadVersion();
+        this.serviceWorkerLoad();
     }
 
-    loadVersion() {
-        this.loadJsFile(
-            '/js/appVersion.js',
-            (new Date()).getTime(),
-            $.proxy(this.verifyVersion, this)
-        );
+    serviceWorkerLoad()
+    {
+        navigator.serviceWorker
+            .register("/appServiceWorker.js")
+            .then(() => {
+                navigator.serviceWorker.ready.then((registration) => {
+                    this.serviceWorker = registration;
+                    navigator.serviceWorker.onmessage = this.serviceWorkerListen.bind(this);
+                    this.checkVersion();
+                });
+            })
+            .catch((error) => {
+                this.logError("Error registering the Service Worker", error);
+            });
     }
 
-    verifyVersion() {
-        this.version = new AppVersion();
-        this.currentCssFile = 0;
-        this.currentJsFile = 0;
+    serviceWorkerListen(event) {
+        let message = JSON.parse(event.data);
+        let eventCode = message.code;
+        let eventContext = message.context;
+
+        switch (eventCode) {
+            case 'cacheCleared':
+                window.location.href = '/';
+                break;
+
+            default:
+                this.logError('Unknown message ' + eventCode, eventContext);
+        }
+    }
+
+    async checkVersion() {
+        this.loadCurrentVersion();
+        let serverVersion = await this.loadServerVersion();
+
+        if (this.version === null) {
+            if (serverVersion === null) {
+                this.offline = true;
+                this.logError("You need network connexion to load the app");
+                return;
+            }
+
+            this.offline = false;
+            this.logDebug('OnLine - first install');
+            this.saveVersion(serverVersion);
+            this.loadApp();
+            return;
+        }
+
+        if (serverVersion === null) {
+            this.offline = true;
+            this.logDebug('OffLine Mode');
+            this.loadApp();
+            return;
+        }
+
+        this.offline = false;
+        if (this.version.version === serverVersion.version) {
+            this.logDebug('OnLine Mode');
+            this.loadApp();
+            return;
+        }
+
+        this.logDebug('Need update');
+        this.saveVersion(serverVersion);
+        this.serviceWorker.active.postMessage("clearCache");
+    }
+
+    loadCurrentVersion() {
+        this.version = null;
+
+        let values = localStorage.getItem("app.version");
+        if (!values) {
+            return;
+        }
+        this.version = JSON.parse(values);
+        if (!(this.version instanceof Object)) {
+            this.version = null;
+        }
+    }
+
+    async loadServerVersion() {
+        try {
+            let response = await fetch('/js/appVersion.json?_=' + (new Date()).getTime());
+            return await response.json();
+        } catch {
+            return null;
+        }
+    }
+
+    saveVersion(version) {
+        this.version = version;
+        localStorage.setItem("app.version", JSON.stringify(version));
+    }
+
+    loadApp() {
+        this.currentFile = 0;
+        this.loadNextAsset();
+    }
+
+    async loadNextAsset() {
+        try {
+            let response = await fetch(this.version.files['assets'][this.currentFile])
+            if (response.status >= 200 && response.status < 300) {
+                this.assetSuccess();
+                return;
+            }
+        } catch {
+        }
+        this.assetFailed();
+    }
+
+    assetSuccess() {
+        this.currentFile++;
+        if (this.currentFile < this.version.files['assets'].length) {
+            this.loadNextAsset();
+            return;
+        }
+
+        this.currentFile = 0;
         this.loadNextCssFile();
     }
 
-    loadNextCssFile() {
-        this.loadCssFile(
-            this.cssFiles[this.currentCssFile],
-            this.version.currentVersion,
-            $.proxy(this.cssSuccess, this)
-        )
+    assetFailed() {
+        this.logError('Error on loading ASSET file ' + this.version.files['assets'][this.currentFile]);
     }
 
-    loadCssFile(url, version, callbackLoaded) {
+    loadNextCssFile() {
         let htmlTag = document.createElement("link");
         htmlTag.setAttribute("rel", "stylesheet");
         htmlTag.setAttribute("type", "text/css");
-        htmlTag.setAttribute("href", url + '?_v=' + version);
-        htmlTag.onload=callbackLoaded;
-        htmlTag.onerror=$.proxy(this.cssFailed, this);
+        htmlTag.setAttribute("href", this.version.files['css'][this.currentFile]);
+        htmlTag.onload  = this.cssSuccess.bind(this);
+        htmlTag.onerror = this.cssFailed.bind(this);
         document.body.appendChild(htmlTag);
     }
 
     cssSuccess() {
-        this.currentCssFile++;
-        if (this.currentCssFile < this.cssFiles.length) {
+        this.currentFile++;
+        if (this.currentFile < this.version.files['css'].length) {
             this.loadNextCssFile();
             return;
         }
 
+        this.currentFile = 0;
         this.loadNextJsFile();
     }
 
     cssFailed() {
-        alert('Error on loading CSS file ' + this.cssFiles[this.currentCssFile]);
-        window.location.reload();
+        this.logError('Error on loading CSS file ' + this.version.files['css'][this.currentFile]);
     }
 
     loadNextJsFile() {
-        this.loadJsFile(
-            this.jsFiles[this.currentJsFile],
-            this.version.currentVersion,
-            $.proxy(this.jsSuccess, this)
-        )
-    }
-
-    loadJsFile(url, version, callbackLoaded) {
         let htmlTag = document.createElement("script");
         htmlTag.setAttribute("type", "text/javascript");
-        htmlTag.setAttribute("src", url + '?_v=' + version);
-        htmlTag.onload=callbackLoaded;
-        htmlTag.onerror=$.proxy(this.jsFailed, this);
+        htmlTag.setAttribute("src", this.version.files['js'][this.currentFile]);
+        htmlTag.onload  = this.jsSuccess.bind(this);
+        htmlTag.onerror = this.jsFailed.bind(this);
         document.body.appendChild(htmlTag);
     }
 
     jsSuccess() {
-        this.currentJsFile++;
-        if (this.currentJsFile < this.jsFiles.length) {
+        this.currentFile++;
+        if (this.currentFile < this.version.files['js'].length) {
             this.loadNextJsFile();
             return;
         }
 
-        this.ready();
+        this.currentFile = 0;
+        this.startApp();
     }
 
     jsFailed() {
-        alert('Error on loading JS file ' + this.jsFiles[this.currentJsFile]);
-        window.location.reload();
+        this.logError('Error on loading JS file ' + this.version.files['js'][this.currentFile])
     }
 
-    ready() {
+    startApp() {
         this.initScreenWakeLock();
         this.runLauncher();
     }
@@ -159,13 +200,22 @@ class AppBootstrap {
     }
 
     runLauncher() {
-        (new Launcher(this.version))
+        (new Launcher(this.version.version, this.offline))
             .addScenario(new ScenarioTutorial())
             .addScenario(new ScenarioBroceliande())
             .addScenario(new ScenarioHome())
             .start()
         ;
     }
+
+    logDebug(message, context = null) {
+        console.log("AppBootstrap - " + message, context);
+    }
+
+    logError(message, context = null) {
+        console.error("AppBootstrap - " + message, context);
+        alert(message);
+    }
 }
 
-new AppBootstrap(true);
+document.addEventListener("DOMContentLoaded", () => { new AppBootstrap(); });

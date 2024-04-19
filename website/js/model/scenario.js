@@ -55,6 +55,10 @@ class Scenario {
         ;
     }
 
+    addResources() {
+        throw new Error('You have to implement the method addResources!');
+    }
+
     load() {
         throw new Error('You have to implement the method load!');
     }
@@ -65,7 +69,7 @@ class Scenario {
      * @returns {Scenario}
      */
     addResourceImage(code, filename) {
-        let resource = new ResourceImage(code, filename);
+        let resource = new ResourceImage(this.code, code, filename);
         this.images[resource.code] = resource;
         return this;
     }
@@ -77,7 +81,7 @@ class Scenario {
      * @returns {Scenario}
      */
     addResourceSound(code, filename, volume) {
-        let resource = new ResourceSound(code, filename, volume);
+        let resource = new ResourceSound(this.code, code, filename, volume);
         this.sounds[resource.code] = resource;
         return this;
     }

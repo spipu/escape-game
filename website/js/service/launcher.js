@@ -1,12 +1,15 @@
 class Launcher {
-    /** @type {AppVersion} */ version;
+    /** @type {string}     */ version;
+    /** @type {boolean}    */ offline;
     /** @type {Scenario[]} */ list;
 
     /**
-     * @param {AppVersion} version
+     * @param {string}  version
+     * @param {boolean} offline
      */
-    constructor(version) {
+    constructor(version, offline) {
         this.version = version;
+        this.offline = offline;
         this.list = [];
     }
 
@@ -15,6 +18,17 @@ class Launcher {
      */
     addScenario(scenario) {
         this.list[scenario.code] = scenario;
+
+        scenario.addResources();
+
+        for (let key in scenario.images) {
+            fetch(scenario.images[key].url);
+        }
+
+        for (let key in scenario.sounds) {
+            fetch(scenario.sounds[key].url);
+        }
+
         return this;
     }
 
@@ -31,24 +45,17 @@ class Launcher {
             listTag.append(rowTag);
         }
 
-        let reloadTag = $('<i class="fa fa-rotate"></i>');
-        reloadTag.on('click', $.proxy(this.reload, this));
-
-        let containerTag = $('<div class="main-reload"></div>');
-        containerTag.append(reloadTag);
-
         let versionTag = $('<div class="main-version"></div>');
-        versionTag.text('Version 1.' + this.version.currentVersion);
+        versionTag.text(this.version + (this.offline ? ' (OffLine)' : ''));
 
         $('#screen')
             .append(listTag)
-            .append(containerTag)
             .append(versionTag)
         ;
     }
 
     startGame(key) {
-        (new Game(this.list[key], this.version)).start();
+        (new Game(this.list[key])).start();
     }
 
     reload() {

@@ -3,7 +3,7 @@ class ScenarioBroceliande extends Scenario {
         super('broceliande', 'Les légendes de la forêt de Brocéliande');
     }
 
-    load() {
+    addResources() {
         this
             .addResourceImage('bkg_main',        'bkg_main.jpg')
             .addResourceImage('bkg_night',       'bkg_night.jpg')
@@ -46,7 +46,11 @@ class ScenarioBroceliande extends Scenario {
             .addResourceSound('sound_good',    'sound_good.mp3',    0.80)
             .addResourceSound('sound_timeout', 'sound_timeout.mp3', 0.50)
             .addResourceSound('sound_wolf',    'sound_wolf.mp3',    0.50)
+        ;
+    }
 
+    load() {
+        this
             .setBackgroundModalParameters('bkg_params')
             .setBackgroundModalText('bkg_modal_small')
             .setSounds('sound_click', 'sound_good', 'sound_bad', 'sound_alert', 'sound_timeout')

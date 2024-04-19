@@ -3,7 +3,7 @@ class ScenarioTutorial extends Scenario {
         super('tutorial', 'Tutoriel');
     }
 
-    load() {
+    addResources() {
         this
             .addResourceImage('bkg_main',        'bkg_main.jpg')
             .addResourceImage('bkg_timer',       'timer.png')
@@ -34,7 +34,11 @@ class ScenarioTutorial extends Scenario {
             .addResourceSound('sound_click',   'sound_click.mp3',   1.00)
             .addResourceSound('sound_good',    'sound_good.mp3',    0.80)
             .addResourceSound('sound_timeout', 'sound_timeout.mp3', 0.50)
+        ;
+    }
 
+    load() {
+        this
             .setBackgroundModalParameters('bkg_params')
             .setBackgroundModalText('bkg_modal_small')
             .setSounds('sound_click', 'sound_good', 'sound_bad', 'sound_alert', 'sound_timeout')

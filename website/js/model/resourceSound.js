@@ -7,11 +7,13 @@ class ResourceSound {
     /** @type          */ playerId;
 
     /**
+     * @param {string} scenarioCode
      * @param {string} code
      * @param {string} filename
      * @param {number} volumeMax
      */
     constructor(
+        scenarioCode,
         code,
         filename,
         volumeMax
@@ -19,20 +21,15 @@ class ResourceSound {
         this.code          = code;
         this.filename      = filename;
         this.volumeMax     = volumeMax;
-        this.url           = '';
+        this.url           = '/scenario/' + scenarioCode + '/sound/' + this.filename;
         this.player        = null;
         this.playerId      = null;
     }
 
     /**
-     * @param {string} scenarioCode
-     * @param {AppVersion} version
      * @return {ResourceSound}
      */
-    init(scenarioCode, version) {
-        this.url = '/scenario/' + scenarioCode + '/sound/' + this.filename;
-        this.url += '?_v=' + version.currentVersion;
-
+    init() {
         this.player = new Howl(
             {
                 src:      this.url,
