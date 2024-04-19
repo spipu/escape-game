@@ -19,6 +19,19 @@ class Launcher {
     addScenario(scenario) {
         this.list[scenario.code] = scenario;
 
+        return this;
+    }
+
+    loadScenarioResources() {
+         for (let key in this.list) {
+             this.loadScenarioResource(this.list[key]);
+         }
+    }
+
+    /**
+     * @param {Scenario} scenario
+     */
+    loadScenarioResource(scenario) {
         scenario.addResources();
 
         for (let key in scenario.images) {
@@ -28,12 +41,11 @@ class Launcher {
         for (let key in scenario.sounds) {
             fetch(scenario.sounds[key].url);
         }
-
-        return this;
     }
 
     start() {
         this.displayMenu();
+        setTimeout(this.loadScenarioResources.bind(this), 50);
     }
 
     displayMenu() {
