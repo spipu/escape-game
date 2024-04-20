@@ -43,8 +43,20 @@ class AppBootstrap {
                 window.location.href = '/';
                 break;
 
+            case 'statsAsked':
+                this.displayStats(eventContext);
+                break;
+
             default:
                 this.logError('Unknown message ' + eventCode, eventContext);
+        }
+    }
+
+    displayStats(stats) {
+        console.log(stats);
+        let debug = document.getElementById('appDebug');
+        if (debug) {
+            debug.innerText = '(Queries: ' + stats.fetchTotal + ' | Server: ' + stats.fetchServer + ' | Cache: ' + stats.fetchCache + ')';
         }
     }
 
@@ -113,6 +125,8 @@ class AppBootstrap {
     }
 
     loadApp() {
+        this.serviceWorker.active.postMessage("resetStats");
+
         this.loadingStepCurrent = 0;
         this.loadingStepMax     = 2;
         this.loadingFileCurrent = 0;
@@ -203,7 +217,7 @@ class AppBootstrap {
 
     startApp() {
         this.initScreenWakeLock();
-        this.runLauncher();
+        this.loadLauncher();
     }
 
     initScreenWakeLock() {
@@ -211,7 +225,7 @@ class AppBootstrap {
         this.screenWakeLock.init();
     }
 
-    runLauncher() {
+    loadLauncher() {
         let launcher = new Launcher(this.version.version, this.offline);
 
         launcher
@@ -220,12 +234,13 @@ class AppBootstrap {
             .addScenario(new ScenarioHome())
         ;
 
-        this.loadScenarioResources(launcher).then(
-            (launcher) => {
-                $('#progressBarContainer').remove();
-                launcher.start();
-            }
-        );
+        this.loadScenarioResources(launcher).then((launcher) => { this.runLauncher(launcher); });
+    }
+
+    runLauncher(launcher) {
+        $('#progressBarContainer').remove();
+        launcher.start();
+        this.serviceWorker.active.postMessage("askStats");
     }
 
     /**

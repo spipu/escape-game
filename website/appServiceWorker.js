@@ -1,5 +1,8 @@
 class AppServiceWorker {
     /** @type {WorkerGlobalScope} */ serviceWorker;
+    /** @type {int}               */ statsFetchTotal;
+    /** @type {int}               */ statsFetchServer;
+    /** @type {int}               */ statsFetchCache;
     /** @type {boolean}           */ debugEnabled = false;
     /** @type {string}            */ version = "v1";
     /** @type {string[]}          */ files = [
@@ -14,6 +17,9 @@ class AppServiceWorker {
      */
     constructor(serviceWorker) {
         this.serviceWorker = serviceWorker;
+        this.statsFetchTotal  = 0;
+        this.statsFetchServer = 0;
+        this.statsFetchCache  = 0;
     }
 
     initListeners() {
@@ -37,9 +43,34 @@ class AppServiceWorker {
                 this.clearCache();
                 break;
 
+            case 'resetStats':
+                this.resetStats();
+                break;
+
+            case 'askStats':
+                this.askStats();
+                break;
+
             default:
                 this.logDebug('Unknown message', eventCode);
         }
+    }
+
+    resetStats() {
+        this.statsFetchTotal  = 0;
+        this.statsFetchServer = 0;
+        this.statsFetchCache  = 0;
+    }
+
+    askStats() {
+        this.triggerEvent(
+            'statsAsked',
+            {
+                'fetchTotal':  this.statsFetchTotal,
+                'fetchServer': this.statsFetchServer,
+                'fetchCache':  this.statsFetchCache,
+            }
+        );
     }
 
     async clearCache() {
@@ -75,11 +106,15 @@ class AppServiceWorker {
                 .match(event.request)
                 .then(
                     (cached) => {
+                        this.statsFetchTotal++;
+
                         if (cached) {
+                            this.statsFetchCache++
                             return cached;
                         }
 
                         this.logDebug('Get from server', event.request.url);
+                        this.statsFetchServer++
                         return fetch(event.request, {cache: "no-store"})
                     })
                 .then(response => this.cache(event.request, response).then(() => response))

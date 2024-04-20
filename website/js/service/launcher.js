@@ -38,9 +38,12 @@ class Launcher {
         let versionTag = $('<div class="main-version"></div>');
         versionTag.text(this.version + (this.offline ? ' (OffLine)' : ''));
 
+        let debugTag = $('<div class="main-version" id="appDebug" style="font-size: 50%"></div>');
+
         $('#screen')
             .append(listTag)
             .append(versionTag)
+            .append(debugTag)
         ;
     }
 
