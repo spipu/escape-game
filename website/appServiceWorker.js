@@ -56,7 +56,7 @@ class AppServiceWorker {
         let cache = await caches.open(this.version)
         let urls = this.files;
 
-        const requests = urls.map((url) => new Request(url, {cache: 'reload'}));
+        const requests = urls.map((url) => new Request(url, {cache: 'no-store'}));
         await cache.addAll(requests);
     }
 
@@ -80,7 +80,7 @@ class AppServiceWorker {
                         }
 
                         this.logDebug('Get from server', event.request.url);
-                        return fetch(event.request, {cache: "reload"})
+                        return fetch(event.request, {cache: "no-store"})
                     })
                 .then(response => this.cache(event.request, response).then(() => response))
         );

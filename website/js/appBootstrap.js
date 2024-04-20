@@ -3,6 +3,10 @@ class AppBootstrap {
     /** @type {Object}         */ version;
     /** @type {boolean}        */ offline;
     /** @type {ScreenWakeLock} */ screenWakeLock;
+    /** @type int              */ loadingStepCurrent
+    /** @type int              */ loadingStepMax
+    /** @type int              */ loadingFileCurrent
+    /** @type int              */ loadingFileMax
 
     constructor() {
         if (!("serviceWorker" in navigator)) {
@@ -109,23 +113,29 @@ class AppBootstrap {
     }
 
     loadApp() {
+        this.loadingStepCurrent = 0;
+        this.loadingStepMax     = 2;
+        this.loadingFileCurrent = 0;
+        this.loadingFileMax     = 0;
+        this.loadingFileMax    += this.version.files['assets'].length;
+        this.loadingFileMax    += this.version.files['css'].length;
+        this.loadingFileMax    += this.version.files['js'].length;
+        this.displayLoadingBar();
+
         this.currentFile = 0;
         this.loadNextAsset();
     }
 
     async loadNextAsset() {
-        try {
-            let response = await fetch(this.version.files['assets'][this.currentFile])
-            if (response.status >= 200 && response.status < 300) {
-                this.assetSuccess();
-                return;
-            }
-        } catch {
+        if (await this.resourceLoad(this.version.files['assets'][this.currentFile])) {
+            this.assetSuccess();
         }
-        this.assetFailed();
     }
 
     assetSuccess() {
+        this.loadingFileCurrent ++;
+        this.displayLoadingBar();
+
         this.currentFile++;
         if (this.currentFile < this.version.files['assets'].length) {
             this.loadNextAsset();
@@ -134,10 +144,6 @@ class AppBootstrap {
 
         this.currentFile = 0;
         this.loadNextCssFile();
-    }
-
-    assetFailed() {
-        this.logError('Error on loading ASSET file ' + this.version.files['assets'][this.currentFile]);
     }
 
     loadNextCssFile() {
@@ -151,6 +157,9 @@ class AppBootstrap {
     }
 
     cssSuccess() {
+        this.loadingFileCurrent ++;
+        this.displayLoadingBar();
+
         this.currentFile++;
         if (this.currentFile < this.version.files['css'].length) {
             this.loadNextCssFile();
@@ -162,7 +171,7 @@ class AppBootstrap {
     }
 
     cssFailed() {
-        this.logError('Error on loading CSS file ' + this.version.files['css'][this.currentFile]);
+        this.resourceFailed(this.version.files['css'][this.currentFile]);
     }
 
     loadNextJsFile() {
@@ -175,6 +184,9 @@ class AppBootstrap {
     }
 
     jsSuccess() {
+        this.loadingFileCurrent ++;
+        this.displayLoadingBar();
+
         this.currentFile++;
         if (this.currentFile < this.version.files['js'].length) {
             this.loadNextJsFile();
@@ -186,7 +198,7 @@ class AppBootstrap {
     }
 
     jsFailed() {
-        this.logError('Error on loading JS file ' + this.version.files['js'][this.currentFile])
+        this.resourceFailed(this.version.files['js'][this.currentFile])
     }
 
     startApp() {
@@ -200,12 +212,85 @@ class AppBootstrap {
     }
 
     runLauncher() {
-        (new Launcher(this.version.version, this.offline))
+        let launcher = new Launcher(this.version.version, this.offline);
+
+        launcher
             .addScenario(new ScenarioTutorial())
             .addScenario(new ScenarioBroceliande())
             .addScenario(new ScenarioHome())
-            .start()
         ;
+
+        this.loadScenarioResources(launcher).then(
+            (launcher) => {
+                $('#progressBarContainer').remove();
+                launcher.start();
+            }
+        );
+    }
+
+    /**
+     * @param {Launcher} launcher
+     * @return {Promise<*>}
+     */
+    async loadScenarioResources(launcher) {
+        this.loadingStepCurrent ++;
+        this.loadingFileCurrent = 0;
+        this.loadingFileMax     = 0;
+
+        for (let key in launcher.list) {
+            let scenario = launcher.list[key];
+            scenario.addResources();
+            this.loadingFileMax += Object.keys(scenario.images).length;
+            this.loadingFileMax += Object.keys(scenario.sounds).length;
+        }
+
+        for (let key in launcher.list) {
+            await this.loadScenarioResource(launcher.list[key]);
+        }
+
+        return launcher;
+    }
+
+    /**
+     * @param {Scenario} scenario
+     */
+    async loadScenarioResource(scenario) {
+        scenario.addResources();
+
+        for (let key in scenario.images) {
+            await this.resourceLoad(scenario.images[key].url);
+            this.loadingFileCurrent ++;
+            this.displayLoadingBar();
+        }
+
+        for (let key in scenario.sounds) {
+            await this.resourceLoad(scenario.sounds[key].url);
+            this.loadingFileCurrent ++;
+            this.displayLoadingBar();
+        }
+    }
+
+    async resourceLoad(url) {
+        try {
+            let response = await fetch(url)
+            if (response.status >= 200 && response.status < 300) {
+                return true;
+            }
+        } catch {
+        }
+
+        this.resourceFailed(url);
+        return false;
+    }
+
+    resourceFailed(url) {
+        this.logError('Error on loading file ' + url);
+    }
+
+    async displayLoadingBar() {
+        let percent = Math.floor(100. * (this.loadingFileCurrent / this.loadingFileMax + this.loadingStepCurrent) / this.loadingStepMax);
+
+        document.getElementById('progressBar').style.width = percent + '%';
     }
 
     logDebug(message, context = null) {

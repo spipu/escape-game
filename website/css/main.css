@@ -37,8 +37,26 @@ body {
     background-position: center center;
     background-size: contain;
     position: relative;
+    width: 100%;
 }
 
 #screen div {
     font-size: inherit;
+}
+
+#screen div.progressBar {
+    border: solid 1px white;
+    background-color: #333333;
+    padding: 0;
+    margin: 5px;
+    height: 20px;
+}
+
+#screen div.progressBar div {
+    border: none;
+    background-color: #DDDDDD;
+    margin: 0;
+    padding: 0;
+    height: 20px;
+    width: 0;
 }
