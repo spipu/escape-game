@@ -66,10 +66,11 @@ class Scenario {
     /**
      * @param {string} code
      * @param {string} filename
+     * @param {boolean} useDefault
      * @returns {Scenario}
      */
-    addResourceImage(code, filename) {
-        let resource = new ResourceImage(this.code, code, filename);
+    addResourceImage(code, filename, useDefault = false) {
+        let resource = new ResourceImage((useDefault ? '_default' : this.code), code, filename);
         this.images[resource.code] = resource;
         return this;
     }
@@ -78,10 +79,11 @@ class Scenario {
      * @param {string} code
      * @param {string} filename
      * @param {number} volume
+     * @param {boolean} useDefault
      * @returns {Scenario}
      */
-    addResourceSound(code, filename, volume) {
-        let resource = new ResourceSound(this.code, code, filename, volume);
+    addResourceSound(code, filename, volume, useDefault = false) {
+        let resource = new ResourceSound((useDefault ? '_default' : this.code), code, filename, volume);
         this.sounds[resource.code] = resource;
         return this;
     }
