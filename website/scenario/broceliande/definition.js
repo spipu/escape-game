@@ -80,7 +80,7 @@ class ScenarioBroceliande extends Scenario {
             .setButtonCode(      new Button(new Size(180, 180), new Position(535, 760),  'btn_code'))
             .setButtonMachine(   new Button(new Size(180, 180), new Position(285, 1020), 'btn_machine'))
 
-            .setTimer((new Timer(30*60, true)).setDisplay('bkg_timer', new Size(560, 329), new Position(85, 120), 160))
+            .setTimer((new Timer(45*60, true)).setDisplay('bkg_timer', new Size(560, 329), new Position(85, 120), 160))
 
             .setKeyboard(new Keyboard('kb_background', 'btn_blue', 'btn_green', 'btn_red', 'btn_close'))
 
