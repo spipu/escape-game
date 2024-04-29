@@ -12,6 +12,10 @@ Tout est personnalisable : les scénarios, les graphismes, les sons, les machine
 
 Seul contraintes pour créer des scénarios : savoir faire du JavaScript.
 
+Ce projet met à disposition une PWA permettant de s'installer comme une vrai application sur un téléphone iOS, Android, ou même sous windows.
+
+Seul problème : sous iOS, la fonction permettant d'empêcher le verouillage de l'écran après 30 secondes est innopérante.
+
 ## Documentation
 
 La documentation se trouve ici : [Documentation](./doc/README.md)
