@@ -7,20 +7,22 @@ class AppBootstrap {
     /** @type int              */ loadingStepMax
     /** @type int              */ loadingFileCurrent
     /** @type int              */ loadingFileMax
+    /** @type {boolean}        */ pwaMode;
 
     constructor() {
-        if (!("serviceWorker" in navigator)) {
-            this.logError("Your browser is not compatible with this application");
+        if ("serviceWorker" in navigator) {
+            this.bootstrapPwa();
             return;
         }
 
-        this.serviceWorkerLoad();
+        this.logError("Your browser is not compatible with PWA and service workers");
+        this.bootstrapClassic();
     }
 
-    serviceWorkerLoad()
-    {
+    bootstrapPwa() {
+        this.pwaMode = true;
         navigator.serviceWorker
-            .register("/appServiceWorker.js")
+            .register("./appServiceWorker.js")
             .then(() => {
                 navigator.serviceWorker.ready.then((registration) => {
                     this.serviceWorker = registration;
@@ -30,7 +32,14 @@ class AppBootstrap {
             })
             .catch((error) => {
                 this.logError("Error registering the Service Worker", error);
+                this.bootstrapClassic();
             });
+    }
+
+    bootstrapClassic() {
+        this.pwaMode = false;
+        this.logDebug('Disable PWA feature');
+        this.checkVersion();
     }
 
     serviceWorkerListen(event) {
@@ -94,6 +103,10 @@ class AppBootstrap {
 
         this.logDebug('Need update');
         this.saveVersion(serverVersion);
+        if (!this.pwaMode) {
+            window.location.href = '/';
+            return;
+        }
         this.serviceWorker.active.postMessage("clearCache");
     }
 
@@ -112,7 +125,7 @@ class AppBootstrap {
 
     async loadServerVersion() {
         try {
-            let response = await fetch('/js/appVersion.json?_=' + (new Date()).getTime());
+            let response = await fetch('./js/appVersion.json?_=' + (new Date()).getTime());
             return await response.json();
         } catch {
             return null;
@@ -125,7 +138,9 @@ class AppBootstrap {
     }
 
     loadApp() {
-        this.serviceWorker.active.postMessage("resetStats");
+        if (this.pwaMode) {
+            this.serviceWorker.active.postMessage("resetStats");
+        }
 
         this.loadingStepCurrent = 0;
         this.loadingStepMax     = 2;
@@ -240,7 +255,9 @@ class AppBootstrap {
     runLauncher(launcher) {
         $('#progressBarContainer').remove();
         launcher.start();
-        this.serviceWorker.active.postMessage("askStats");
+        if (this.pwaMode) {
+            this.serviceWorker.active.postMessage("askStats");
+        }
     }
 
     /**
@@ -314,7 +331,6 @@ class AppBootstrap {
 
     logError(message, context = null) {
         console.error("AppBootstrap - " + message, context);
-        alert(message);
     }
 }
 
