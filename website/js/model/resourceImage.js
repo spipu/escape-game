@@ -22,7 +22,8 @@ class ResourceImage {
      * @return {ResourceImage}
      */
     init() {
-        $('<img/>')[0].src = this.url;
+        const img = document.createElement('img');
+        img.src = this.url;
 
         return this;
     }

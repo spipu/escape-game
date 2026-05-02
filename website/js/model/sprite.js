@@ -20,11 +20,11 @@ class Sprite {
      */
     add(display) {
         this.spriteId = display.maxSpriteId;
-        this.htmlTag.addClass('sprite');
+        this.htmlTag.classList.add('sprite');
 
         display.sprites[this.spriteId] = this;
         display.maxSpriteId++;
-        display.screen.append(this.htmlTag);
+        display.screen.appendChild(this.htmlTag);
 
         this.updatePosition(display);
     }
@@ -44,11 +44,9 @@ class Sprite {
      * @param {GameDisplay} display
      */
     updatePosition(display) {
-        this.htmlTag
-            .css('width',  this.size.width  * display.ratio)
-            .css('height', this.size.height * display.ratio)
-            .css('left',   this.position.x  * display.ratio)
-            .css('top',    this.position.y  * display.ratio)
-        ;
+        this.htmlTag.style.width  = (this.size.width  * display.ratio) + 'px';
+        this.htmlTag.style.height = (this.size.height * display.ratio) + 'px';
+        this.htmlTag.style.left   = (this.position.x  * display.ratio) + 'px';
+        this.htmlTag.style.top    = (this.position.y  * display.ratio) + 'px';
     }
 }

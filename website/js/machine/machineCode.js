@@ -7,7 +7,7 @@ class MachineCode extends AbstractMachine {
      */
     addSlotCode(size, position) {
         let sprite = new Sprite(size, position);
-        sprite.htmlTag = $('<div></div>');
+        sprite.htmlTag = document.createElement('div');
 
         this.sprites[this.sprites.length] = sprite;
         return this;
@@ -24,13 +24,7 @@ class MachineCode extends AbstractMachine {
         this.displayHelpMessage();
 
         for (let key in this.buttonCodes) {
-            this.buttonCodes[key].button.htmlTag.on(
-                'click',
-                $.proxy(
-                    function() { this.selectCode(key); },
-                    this
-                )
-            );
+            this.buttonCodes[key].button.htmlTag.addEventListener('click', () => { this.selectCode(key); });
         }
 
     }

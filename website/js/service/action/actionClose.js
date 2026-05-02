@@ -7,7 +7,7 @@ class ActionClose extends AbstractAction {
         modal.addConfirmAction(
             new Action(
                 'Oui',
-                $.proxy(this.actionConfirm, this),
+                this.actionConfirm.bind(this),
                 '#500',
                 '#F55',
                 'fa-solid fa-xmark'
@@ -16,7 +16,7 @@ class ActionClose extends AbstractAction {
         modal.addConfirmCancel(
             new Action(
                 'Non',
-                $.proxy(this.actionCancel, this),
+                this.actionCancel.bind(this),
                 '#333',
                 '#EEE',
                 'fa-solid fa-rotate-left'

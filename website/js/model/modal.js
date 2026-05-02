@@ -78,7 +78,6 @@ class Modal {
      * @param {Action} action
      * @return {Modal}
      */
-
     addConfirmCancel(action) {
         this.actionCancel = action;
         return this;
@@ -88,15 +87,30 @@ class Modal {
      * @param {GameDisplay} display
      */
     open(display) {
-        this.overlay = $('<div class="overlay"></div>');
-        display.screen.append(this.overlay);
+        this.overlay = document.createElement('div');
+        this.overlay.className = 'overlay';
+        display.screen.appendChild(this.overlay);
 
         this.sprite = new Sprite(this.size, this.position);
-        this.sprite.htmlTag = $('<div class="sprite modal"></div>');
+        this.sprite.htmlTag = document.createElement('div');
+        this.sprite.htmlTag.className = 'sprite modal';
         display.resource.applyImage(this.sprite.htmlTag, this.image);
-        this.sprite.htmlTag.css('font-weight', 'bold');
-        this.sprite.htmlTag.append($('<div class="modal-title"></div>').text(this.title));
-        this.sprite.htmlTag.append($('<div class="' + this.modalBodyClass + '"></div>').append($('<div class="modal-content"></div>').html(this.message)));
+        this.sprite.htmlTag.style.fontWeight = 'bold';
+
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'modal-title';
+        titleDiv.textContent = this.title;
+        this.sprite.htmlTag.appendChild(titleDiv);
+
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'modal-content';
+        contentDiv.innerHTML = this.message;
+
+        const bodyDiv = document.createElement('div');
+        bodyDiv.className = this.modalBodyClass;
+        bodyDiv.appendChild(contentDiv);
+        this.sprite.htmlTag.appendChild(bodyDiv);
+
         display.addSprite(this.sprite);
 
         if (this.imageClose) {
@@ -116,15 +130,14 @@ class Modal {
      * @param {GameDisplay} display
      * @return {Button}
      */
-    prepareButtonClose(display)
-    {
+    prepareButtonClose(display) {
         let btn = new Button(
             new Size(70, 70),
             new Position(this.position.x + this.size.width - 80, this.position.y + 20),
             this.imageClose
         );
-        display.addButton(btn)
-        btn.htmlTag.on('click', $.proxy(function() { this.close(display); }, this));
+        display.addButton(btn);
+        btn.htmlTag.addEventListener('click', () => { this.close(display); });
         return btn;
     }
 
@@ -141,7 +154,7 @@ class Modal {
                 this.position.y + this.size.height - 68
             ),
             null
-        )
+        );
 
         let content = action.label;
         if (action.icon) {
@@ -149,12 +162,12 @@ class Modal {
         }
 
         btn.add(display);
-        btn.htmlTag.html(content);
-        btn.htmlTag.css('color', action.colorText);
+        btn.htmlTag.innerHTML = content;
+        btn.htmlTag.style.color = action.colorText;
         if (action.colorBackground) {
-            btn.htmlTag.css('background-color', action.colorBackground);
+            btn.htmlTag.style.backgroundColor = action.colorBackground;
         }
-        btn.htmlTag.on('click', $.proxy(function() { action.callback(this); }, this));
+        btn.htmlTag.addEventListener('click', () => { action.callback(this); });
 
         return btn;
     }

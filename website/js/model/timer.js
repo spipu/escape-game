@@ -37,9 +37,9 @@ class Timer {
      */
     start(display, state) {
         this.sprite = new Sprite(this.size, this.position);
-        this.sprite.htmlTag = $('<div />');
+        this.sprite.htmlTag = document.createElement('div');
         display.resource.applyImage(this.sprite.htmlTag, this.image);
-        this.sprite.htmlTag.css('font-weight', 'bold');
+        this.sprite.htmlTag.style.fontWeight = 'bold';
 
         display.addSprite(this.sprite);
 
@@ -57,19 +57,19 @@ class Timer {
      */
     refresh(state) {
         if (state.currentTime < 60 || state.isPenalty) {
-            this.sprite.htmlTag.css('color', '#A00');
+            this.sprite.htmlTag.style.color = '#A00';
         } else {
-            this.sprite.htmlTag.css('color', '');
+            this.sprite.htmlTag.style.color = '';
         }
 
         if (!state.parameters.timer) {
             let text = '<i class="fa-solid fa-hourglass-half" style="font-size: 70%; font-weight: normal;"></i>';
-            this.sprite.htmlTag.html(text);
+            this.sprite.htmlTag.innerHTML = text;
             return;
         }
 
         let text = this.convertToText(state.currentTime);
-        this.sprite.htmlTag.text(text);
+        this.sprite.htmlTag.textContent = text;
     }
 
     /**
@@ -89,6 +89,6 @@ class Timer {
      * @param {GameDisplay} display
      */
     resize(display) {
-        this.sprite.htmlTag.css('font-size', this.fontSize * display.ratio)
+        this.sprite.htmlTag.style.fontSize = (this.fontSize * display.ratio) + 'px';
     }
 }

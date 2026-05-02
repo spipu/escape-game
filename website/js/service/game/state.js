@@ -92,7 +92,7 @@ class GameState {
      */
     init(callbackTimeChange) {
         this.callbackTimeChange = callbackTimeChange;
-        this.timerInterval  = setInterval($.proxy(this.incrementTimer, this), 1000);
+        this.timerInterval  = setInterval(this.incrementTimer.bind(this), 1000);
     }
 
     stop() {
@@ -140,14 +140,9 @@ class GameState {
 
         this.isPenalty = true;
 
-        setTimeout(
-            $.proxy(
-                function () {
-                    this.incrementTimer();
-                    this.applyTimerPenaltyStep(penalty - 1); },
-                this
-            ),
-            20
-        );
+        setTimeout(() => {
+            this.incrementTimer();
+            this.applyTimerPenaltyStep(penalty - 1);
+        }, 20);
     }
 }

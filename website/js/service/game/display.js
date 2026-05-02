@@ -24,13 +24,13 @@ class GameDisplay {
         this.sprites = [];
         this.maxButtonId = 0;
         this.maxSpriteId = 0;
-        this.screen = $('#screen');
-        this.screen.empty();
-        this.resizeProxy = $.proxy(this.resizeWait, this);
+        this.screen = document.getElementById('screen');
+        this.screen.innerHTML = '';
+        this.resizeProxy = this.resizeWait.bind(this);
     }
 
     init() {
-        this.screen.addClass('scenario-' + this.resource.scenario.code);
+        this.screen.classList.add('scenario-' + this.resource.scenario.code);
 
         this.resize();
         window.addEventListener('resize', this.resizeProxy);
@@ -54,31 +54,31 @@ class GameDisplay {
         }
 
         this.resource.removeImage(this.screen);
-        this.screen.removeClass('scenario-' + this.resource.scenario.code);
+        this.screen.classList.remove('scenario-' + this.resource.scenario.code);
     }
 
     resizeWait() {
-        setTimeout($.proxy(this.resize, this), 250);
+        setTimeout(this.resize.bind(this), 250);
     }
 
     resize() {
-        let main = $('#main');
-        let maxW = window.innerWidth;
-        let maxH = window.innerHeight;
-        main.css('width', maxW);
-        main.css('height', maxH);
+        const main = document.getElementById('main');
+        const maxW = window.innerWidth;
+        const maxH = window.innerHeight;
+        main.style.width  = maxW + 'px';
+        main.style.height = maxH + 'px';
 
         if (maxW * this.height < maxH * this.width) {
             this.ratio = maxW / this.width;
-            this.screen.css('width',  maxW);
-            this.screen.css('height', maxW * this.height / this.width);
+            this.screen.style.width  = maxW + 'px';
+            this.screen.style.height = (maxW * this.height / this.width) + 'px';
         } else {
             this.ratio = maxH / this.height;
-            this.screen.css('width',  maxH * this.width / this.height);
-            this.screen.css('height', maxH);
+            this.screen.style.width  = (maxH * this.width / this.height) + 'px';
+            this.screen.style.height = maxH + 'px';
         }
 
-        this.screen.css('font-size', 30. * this.ratio)
+        this.screen.style.fontSize = (30. * this.ratio) + 'px';
 
         for (let key = 0; key < this.maxButtonId; key ++) {
             if (this.buttons[key]) {

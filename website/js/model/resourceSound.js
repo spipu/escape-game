@@ -64,16 +64,10 @@ class ResourceSound {
         }
         this.player.loop(false);
         this.player.fade(this.volumeMax, 0.0, 1000, this.playerId);
-        this.player.once(
-            'fade',
-            $.proxy(
-                function () {
-                    this.player.stop(this.playerId);
-                    this.playerId = null;
-                },
-                this
-            )
-        );
+        this.player.once('fade', () => {
+            this.player.stop(this.playerId);
+            this.playerId = null;
+        });
     }
 
     pauseMusic() {

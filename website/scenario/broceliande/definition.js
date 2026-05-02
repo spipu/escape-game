@@ -85,7 +85,7 @@ class ScenarioBroceliande extends Scenario {
             .setKeyboard(new Keyboard('kb_background', 'btn_blue', 'btn_green', 'btn_red', 'btn_close'))
 
             .setStepOpening((new StepOpening()).setTimeStartDirectly(true))
-            .setInitCallback($.proxy(this.initEvents, this))
+            .setInitCallback(this.initEvents.bind(this))
 
             .addHelp(new Help('6', "Sans ses piles,\nla lampe ne peut fonctionner\npour le moment."))
             .addHelp(
@@ -239,7 +239,7 @@ class ScenarioBroceliande extends Scenario {
                 if (e.detail.stepCode === '1069') {
                     actions.state.addEvent(
                         30,
-                        $.proxy(function() { this.eventNight(actions); }, this)
+                        () => { this.eventNight(actions); }
                     );
                 }
             },

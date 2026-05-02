@@ -4,7 +4,7 @@ class ActionCode extends AbstractAction {
             return;
         }
 
-        this.keyboard.open(4, 4, true, $.proxy(this.actionCallback, this));
+        this.keyboard.open(4, 4, true, this.actionCallback.bind(this));
     }
 
     /**

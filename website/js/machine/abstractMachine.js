@@ -125,15 +125,16 @@ class AbstractMachine extends AbstractAction {
     }
 
     displayBackground(image) {
-        this.background = $('<div class="machine-background"></div>');
+        this.background = document.createElement('div');
+        this.background.className = 'machine-background';
         this.display.resource.applyImage(this.background, image);
-        this.display.screen.append(this.background);
+        this.display.screen.appendChild(this.background);
     }
 
     displayButtonClose() {
         let btn = new Button(new Size(100, 100), new Position(635, 15), this.btnCloseImage);
         this.display.addButton(btn)
-        btn.htmlTag.on('click', $.proxy(this.stop, this));
+        btn.htmlTag.addEventListener('click', this.stop.bind(this));
 
         this.buttons[this.buttons.length] = btn;
     }
@@ -146,12 +147,9 @@ class AbstractMachine extends AbstractAction {
             this.btnCancelImage
         );
         this.display.addButton(btn)
-        btn.htmlTag.text('C');
-        btn.htmlTag.css('font-size', fontsize);
-        btn.htmlTag.on(
-            'click',
-            $.proxy(this.resetButtonSwitches, this)
-        );
+        btn.htmlTag.textContent = 'C';
+        btn.htmlTag.style.fontSize = fontsize;
+        btn.htmlTag.addEventListener('click', this.resetButtonSwitches.bind(this));
 
         this.buttons[this.buttons.length] = btn;
     }
@@ -163,12 +161,9 @@ class AbstractMachine extends AbstractAction {
             this.btnConfirmImage
         );
         this.display.addButton(btn)
-        btn.htmlTag.text('OK');
-        btn.htmlTag.css('font-size', fontsize);
-        btn.htmlTag.on(
-            'click',
-            $.proxy(function () { this.executeMachine(this.getButtonSwitchesValue()); }, this)
-        );
+        btn.htmlTag.textContent = 'OK';
+        btn.htmlTag.style.fontSize = fontsize;
+        btn.htmlTag.addEventListener('click', () => { this.executeMachine(this.getButtonSwitchesValue()); });
 
         this.buttons[this.buttons.length] = btn;
     }

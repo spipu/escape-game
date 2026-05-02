@@ -15,9 +15,9 @@ class ActionParameters extends AbstractAction {
 
         this.updateChecks();
 
-        $('#parameter-musics').on('click', $.proxy(this.changeMusics, this));
-        $('#parameter-soundEffects').on('click', $.proxy(this.changeSoundEffects, this));
-        $('#parameter-timer').on('click', $.proxy(this.changeTimer, this));
+        document.getElementById('parameter-musics').addEventListener('click',       this.changeMusics.bind(this));
+        document.getElementById('parameter-soundEffects').addEventListener('click', this.changeSoundEffects.bind(this));
+        document.getElementById('parameter-timer').addEventListener('click',        this.changeTimer.bind(this));
     }
 
     changeMusics() {
@@ -53,22 +53,14 @@ class ActionParameters extends AbstractAction {
     }
 
     updateChecks() {
-        $('#parameter-musics')
-            .removeClass('fa-square-check')
-            .removeClass('fa-square')
-            .addClass(this.state.parameters.musics ? 'fa-square-check' : 'fa-square')
-        ;
+        this.updateCheck('parameter-musics',       this.state.parameters.musics);
+        this.updateCheck('parameter-soundEffects', this.state.parameters.soundEffects);
+        this.updateCheck('parameter-timer',        this.state.parameters.timer);
+    }
 
-        $('#parameter-soundEffects')
-            .removeClass('fa-square-check')
-            .removeClass('fa-square')
-            .addClass(this.state.parameters.soundEffects ? 'fa-square-check' : 'fa-square')
-        ;
-
-        $('#parameter-timer')
-            .removeClass('fa-square-check')
-            .removeClass('fa-square')
-            .addClass(this.state.parameters.timer ? 'fa-square-check' : 'fa-square')
-        ;
+    updateCheck(id, value) {
+        const el = document.getElementById(id);
+        el.classList.remove('fa-square-check', 'fa-square');
+        el.classList.add(value ? 'fa-square-check' : 'fa-square');
     }
 }

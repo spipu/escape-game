@@ -4,7 +4,7 @@ class ActionHelp extends AbstractAction {
             return;
         }
 
-        this.keyboard.open(1, 4, false, $.proxy(this.actionCallback, this));
+        this.keyboard.open(1, 4, false, this.actionCallback.bind(this));
     }
 
     /**
@@ -81,17 +81,11 @@ class ActionHelp extends AbstractAction {
             }
 
             btn.add(this.display);
-            btn.htmlTag.html(k+1);
-            btn.htmlTag.on(
-                'click',
-                $.proxy(
-                    function() {
-                        modal.close(this.display);
-                        this.displayComplexHelp(help, k);
-                    },
-                    this
-                )
-            );
+            btn.htmlTag.innerHTML = k + 1;
+            btn.htmlTag.addEventListener('click', () => {
+                modal.close(this.display);
+                this.displayComplexHelp(help, k);
+            });
             modal.addButton(btn);
         }
 

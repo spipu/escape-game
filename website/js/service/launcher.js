@@ -27,24 +27,29 @@ class Launcher {
     }
 
     displayMenu() {
-        let listTag = $('<ul class="main-menu"></ul>');
+        const listTag = document.createElement('ul');
+        listTag.className = 'main-menu';
+
         for (let key in this.list) {
-            let rowTag = $('<li></li>');
-            rowTag.text(this.list[key].name);
-            rowTag.on('click', $.proxy(function () { this.startGame(key); }, this));
-            listTag.append(rowTag);
+            const rowTag = document.createElement('li');
+            rowTag.textContent = this.list[key].name;
+            rowTag.addEventListener('click', () => { this.startGame(key); });
+            listTag.appendChild(rowTag);
         }
 
-        let versionTag = $('<div class="main-version"></div>');
-        versionTag.text(this.version + (this.offline ? ' (OffLine)' : ''));
+        const versionTag = document.createElement('div');
+        versionTag.className = 'main-version';
+        versionTag.textContent = this.version + (this.offline ? ' (OffLine)' : '');
 
-        let debugTag = $('<div class="main-version" id="appDebug" style="font-size: 50%"></div>');
+        const debugTag = document.createElement('div');
+        debugTag.className = 'main-version';
+        debugTag.id = 'appDebug';
+        debugTag.style.fontSize = '50%';
 
-        $('#screen')
-            .append(listTag)
-            .append(versionTag)
-            .append(debugTag)
-        ;
+        const screen = document.getElementById('screen');
+        screen.appendChild(listTag);
+        screen.appendChild(versionTag);
+        screen.appendChild(debugTag);
     }
 
     startGame(key) {

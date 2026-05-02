@@ -27,9 +27,9 @@ class ButtonSwitch {
 
     updateDisplay() {
         if (this.state) {
-            this.button.htmlTag.removeClass('button-switch-off');
+            this.button.htmlTag.classList.remove('button-switch-off');
         } else {
-            this.button.htmlTag.addClass('button-switch-off');
+            this.button.htmlTag.classList.add('button-switch-off');
         }
     }
 
@@ -39,7 +39,7 @@ class ButtonSwitch {
     add(display) {
         display.addButton(this.button)
         this.reset();
-        this.button.htmlTag.on('click', $.proxy(this.switch, this));
+        this.button.htmlTag.addEventListener('click', this.switch.bind(this));
     }
 
     /**

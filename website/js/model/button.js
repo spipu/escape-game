@@ -52,63 +52,55 @@ class Button {
             return;
         }
 
-        this.htmlTag = new $('<div class="button"></div>');
+        this.htmlTag = document.createElement('div');
+        this.htmlTag.className = 'button';
+
         if (this.image) {
-            this.htmlTag.addClass('button-image');
+            this.htmlTag.classList.add('button-image');
             display.resource.applyImage(this.htmlTag, this.image);
         } else if (this.specificClass) {
-            this.htmlTag.addClass(this.specificClass);
+            this.htmlTag.classList.add(this.specificClass);
         } else {
-            this.htmlTag.addClass('button-no-image');
+            this.htmlTag.classList.add('button-no-image');
         }
 
-        let functionOn = $.proxy(
-            function () {
-                if (this.enabled) {
-                    this.htmlTag.addClass('button-hover');
-                }
-            },
-            this
-        );
+        const functionOn = () => {
+            if (this.enabled) {
+                this.htmlTag.classList.add('button-hover');
+            }
+        };
 
-        let functionOff = $.proxy(
-            function () {
-                if (this.enabled) {
-                    this.htmlTag.removeClass('button-hover');
-                }
-            },
-            this
-        );
+        const functionOff = () => {
+            if (this.enabled) {
+                this.htmlTag.classList.remove('button-hover');
+            }
+        };
 
-        let functionSound = $.proxy(
-            function () {
-                if (this.enabled && this.click) {
-                    display.resource.playSoundClick();
-                }
-            },
-            this
-        );
+        const functionSound = () => {
+            if (this.enabled && this.click) {
+                display.resource.playSoundClick();
+            }
+        };
 
-        this.htmlTag
-            .attr('draggable', false)
-            .on('click',      functionSound)
-            .on('mousedown',  functionOn)
-            .on('touchstart', functionOn)
-            .on('mouseup',    functionOff)
-            .on('mouseout',   functionOff)
-            .on('touchend',   functionOff)
-        ;
+        this.htmlTag.setAttribute('draggable', false);
+        this.htmlTag.addEventListener('click',      functionSound);
+        this.htmlTag.addEventListener('mousedown',  functionOn);
+        this.htmlTag.addEventListener('touchstart', functionOn);
+        this.htmlTag.addEventListener('mouseup',    functionOff);
+        this.htmlTag.addEventListener('mouseout',   functionOff);
+        this.htmlTag.addEventListener('touchend',   functionOff);
 
         this.buttonId = display.maxButtonId;
         display.buttons[this.buttonId] = this;
         display.maxButtonId++;
 
-        display.screen.append(this.htmlTag);
+        display.screen.appendChild(this.htmlTag);
 
         if (this.label) {
-            this.labelTag = new $('<div class="button-label"></div>');
-            this.labelTag.text(this.label);
-            display.screen.append(this.labelTag);
+            this.labelTag = document.createElement('div');
+            this.labelTag.className = 'button-label';
+            this.labelTag.textContent = this.label;
+            display.screen.appendChild(this.labelTag);
         }
 
         this.updatePosition(display);
@@ -142,19 +134,15 @@ class Button {
             return;
         }
 
-        this.htmlTag
-            .css('width',  this.size.width  * display.ratio)
-            .css('height', this.size.height * display.ratio)
-            .css('left',   this.position.x  * display.ratio)
-            .css('top',    this.position.y  * display.ratio)
-        ;
+        this.htmlTag.style.width  = (this.size.width  * display.ratio) + 'px';
+        this.htmlTag.style.height = (this.size.height * display.ratio) + 'px';
+        this.htmlTag.style.left   = (this.position.x  * display.ratio) + 'px';
+        this.htmlTag.style.top    = (this.position.y  * display.ratio) + 'px';
 
         if (this.labelTag) {
-            this.labelTag
-                .css('width',  (this.size.width * 1.5) * display.ratio)
-                .css('left',   (this.position.x - this.size.width * 0.25)* display.ratio)
-                .css('top',    (this.position.y - 40)  * display.ratio)
-            ;
+            this.labelTag.style.width = ((this.size.width * 1.5) * display.ratio) + 'px';
+            this.labelTag.style.left  = ((this.position.x - this.size.width * 0.25) * display.ratio) + 'px';
+            this.labelTag.style.top   = ((this.position.y - 40) * display.ratio) + 'px';
         }
     }
 
@@ -164,7 +152,7 @@ class Button {
         }
 
         this.enabled = true;
-        this.htmlTag.removeClass('button-disabled');
+        this.htmlTag.classList.remove('button-disabled');
     }
 
     disable() {
@@ -173,8 +161,8 @@ class Button {
         }
 
         this.enabled = false;
-        this.htmlTag.addClass('button-disabled');
-        this.htmlTag.removeClass('button-hover');
+        this.htmlTag.classList.add('button-disabled');
+        this.htmlTag.classList.remove('button-hover');
     }
 
     show() {
@@ -182,9 +170,9 @@ class Button {
             return;
         }
 
-        this.htmlTag.show();
+        this.htmlTag.style.display = '';
         if (this.labelTag) {
-            this.labelTag.show();
+            this.labelTag.style.display = '';
         }
     }
 
@@ -193,9 +181,9 @@ class Button {
             return;
         }
 
-        this.htmlTag.hide();
+        this.htmlTag.style.display = 'none';
         if (this.labelTag) {
-            this.labelTag.hide();
+            this.labelTag.style.display = 'none';
         }
     }
 }

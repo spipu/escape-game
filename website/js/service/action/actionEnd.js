@@ -13,13 +13,10 @@ class ActionEnd extends AbstractAction {
         modal.addConfirmAction(
             new Action(
                 'Fermer',
-                $.proxy(
-                    function () {
-                        modal.close(this.display);
-                        this.showScore();
-                    },
-                    this
-                ),
+                () => {
+                    modal.close(this.display);
+                    this.showScore();
+                },
                 '#DDD',
                 '#333',
                 'fa-solid fa-xmark'
@@ -74,15 +71,15 @@ class ActionEnd extends AbstractAction {
         modal.addConfirmAction(
             new Action(
                 'Fermer',
-                $.proxy(this.closeScore, this),
+                this.closeScore.bind(this),
                 '#DDD',
                 '#333',
                 'fa-solid fa-xmark'
             )
         );
         modal.open(this.display);
-        modal.sprite.htmlTag.find('.modal-body').addClass('modal-score');
-        modal.overlay.hide();
+        modal.sprite.htmlTag.querySelector('.modal-body').classList.add('modal-score');
+        modal.overlay.style.display = 'none';
     }
 
     /**

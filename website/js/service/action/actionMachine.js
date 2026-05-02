@@ -4,7 +4,7 @@ class ActionMachine extends AbstractAction {
             return;
         }
 
-        this.keyboard.open(1, 4, false, $.proxy(this.actionCallback, this));
+        this.keyboard.open(1, 4, false, this.actionCallback.bind(this));
     }
 
     /**

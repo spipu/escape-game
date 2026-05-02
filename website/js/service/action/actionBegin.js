@@ -22,7 +22,7 @@ class ActionBegin extends AbstractAction {
             modal.addConfirmAction(
                 new Action(
                     'Suivant',
-                    $.proxy(function () { modal.close(this.display); this.showModal(textKey + 1);}, this),
+                    () => { modal.close(this.display); this.showModal(textKey + 1); },
                     '#333',
                     '#EEE'
                 )
@@ -31,15 +31,12 @@ class ActionBegin extends AbstractAction {
             modal.addConfirmAction(
                 new Action(
                     'Commencer',
-                    $.proxy(
-                        function () {
-                            modal.close(this.display);
-                            this.display.resource.stopMusic();
-                            this.startGame();
-                            this.state.isPause = false;
-                        },
-                        this
-                    ),
+                    () => {
+                        modal.close(this.display);
+                        this.display.resource.stopMusic();
+                        this.startGame();
+                        this.state.isPause = false;
+                    },
                     '#DDD',
                     '#333',
                     'fa-solid fa-play'

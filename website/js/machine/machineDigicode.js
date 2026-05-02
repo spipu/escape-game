@@ -96,25 +96,26 @@ class MachineDigicode extends AbstractMachine {
             new Size(this.screenWidth, this.screenHeight),
             new Position((this.display.width - this.screenWidth) / 2, this.screenDeltaY)
         );
-        this.screen.htmlTag = $('<div class="digicode-screen"></div>');
+        this.screen.htmlTag = document.createElement('div');
+        this.screen.htmlTag.className = 'digicode-screen';
         this.display.addSprite(this.screen);
         this.sprites[this.sprites.length] = this.screen;
     }
 
     displayDigicodeButtons() {
         let key = this.buttons.length;
-        this.buttons[key + 1]  = this.createKey(0, 0, $.proxy(function() { this.addDigit('7'); }, this));
-        this.buttons[key + 2]  = this.createKey(1, 0, $.proxy(function() { this.addDigit('8'); }, this));
-        this.buttons[key + 3]  = this.createKey(2, 0, $.proxy(function() { this.addDigit('9'); }, this));
-        this.buttons[key + 4]  = this.createKey(0, 1, $.proxy(function() { this.addDigit('4'); }, this));
-        this.buttons[key + 5]  = this.createKey(1, 1, $.proxy(function() { this.addDigit('5'); }, this));
-        this.buttons[key + 6]  = this.createKey(2, 1, $.proxy(function() { this.addDigit('6'); }, this));
-        this.buttons[key + 7]  = this.createKey(0, 2, $.proxy(function() { this.addDigit('1'); }, this));
-        this.buttons[key + 8]  = this.createKey(1, 2, $.proxy(function() { this.addDigit('2'); }, this));
-        this.buttons[key + 9]  = this.createKey(2, 2, $.proxy(function() { this.addDigit('3'); }, this));
-        this.buttons[key + 10] = this.createKey(0, 3, $.proxy(function() { this.resetDigit();  }, this));
-        this.buttons[key + 11] = this.createKey(1, 3, $.proxy(function() { this.addDigit('0'); }, this));
-        this.buttons[key + 12] = this.createKey(2, 3, $.proxy(function() { this.verifyValue(); }, this));
+        this.buttons[key + 1]  = this.createKey(0, 0, () => { this.addDigit('7'); });
+        this.buttons[key + 2]  = this.createKey(1, 0, () => { this.addDigit('8'); });
+        this.buttons[key + 3]  = this.createKey(2, 0, () => { this.addDigit('9'); });
+        this.buttons[key + 4]  = this.createKey(0, 1, () => { this.addDigit('4'); });
+        this.buttons[key + 5]  = this.createKey(1, 1, () => { this.addDigit('5'); });
+        this.buttons[key + 6]  = this.createKey(2, 1, () => { this.addDigit('6'); });
+        this.buttons[key + 7]  = this.createKey(0, 2, () => { this.addDigit('1'); });
+        this.buttons[key + 8]  = this.createKey(1, 2, () => { this.addDigit('2'); });
+        this.buttons[key + 9]  = this.createKey(2, 2, () => { this.addDigit('3'); });
+        this.buttons[key + 10] = this.createKey(0, 3, () => { this.resetDigit();  });
+        this.buttons[key + 11] = this.createKey(1, 3, () => { this.addDigit('0'); });
+        this.buttons[key + 12] = this.createKey(2, 3, () => { this.verifyValue(); });
     }
 
     verifyValue() {
@@ -149,7 +150,7 @@ class MachineDigicode extends AbstractMachine {
             }
         }
 
-        this.screen.htmlTag.html(value);
+        this.screen.htmlTag.innerHTML = value;
     }
 
     /**
@@ -157,7 +158,7 @@ class MachineDigicode extends AbstractMachine {
      * @param {int}      y
      * @param {function} callback
      */
-    createKey(x, y, callback ) {
+    createKey(x, y, callback) {
         let btn = new Button(
             new Size(this.digitsSize, this.digitsSize),
             new Position(
@@ -169,7 +170,7 @@ class MachineDigicode extends AbstractMachine {
         );
 
         this.display.addButton(btn);
-        btn.htmlTag.on('click', callback);
+        btn.htmlTag.addEventListener('click', callback);
 
         return btn;
     }

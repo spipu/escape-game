@@ -157,7 +157,7 @@ class ScenarioHome extends Scenario {
                         "#ICON[fa-regular fa-thumbs-up fa-3x]"
                     )
             )
-            .setInitCallback($.proxy(this.initEvents, this))
+            .setInitCallback(this.initEvents.bind(this))
         ;
     }
 

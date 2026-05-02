@@ -52,7 +52,7 @@ class Game {
 
         this.scenario.keyboard.setDisplay(this.display);
 
-        this.state.init($.proxy(this.refreshTimer, this));
+        this.state.init(this.refreshTimer.bind(this));
 
         this.actions.pause.execute();
 
@@ -81,10 +81,7 @@ class Game {
             return;
         }
 
-        button.htmlTag.on(
-            'click',
-            $.proxy(action.execute, action)
-        )
+        button.htmlTag.addEventListener('click', action.execute.bind(action));
     }
 
     refreshTimer() {

@@ -33,7 +33,7 @@ class GameResource {
             this.sounds[key] = this.scenario.sounds[key].init();
         }
 
-        document.addEventListener('visibilitychange', $.proxy(this.visibilitychange, this));
+        document.addEventListener('visibilitychange', this.visibilitychange.bind(this));
     }
 
     visibilitychange() {
@@ -55,11 +55,11 @@ class GameResource {
     }
 
     applyImage(htmlElement, imageCode) {
-        htmlElement.css('background-image', 'url(' + this.images[imageCode].url + ')');
+        htmlElement.style.backgroundImage = 'url(' + this.images[imageCode].url + ')';
     }
 
     removeImage(htmlElement) {
-        htmlElement.css('background-image', '');
+        htmlElement.style.backgroundImage = '';
     }
 
     startMusic(soundCode) {

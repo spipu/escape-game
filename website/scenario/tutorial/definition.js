@@ -210,7 +210,7 @@ class ScenarioTutorial extends Scenario {
                         "#ICON[fa-solid fa-clock fa-3x]"
                     )
             )
-            .setInitCallback($.proxy(this.initEvents, this))
+            .setInitCallback(this.initEvents.bind(this))
         ;
     }
 

@@ -9,7 +9,7 @@ class ScreenWakeLock {
 
     init() {
         this.ask();
-        document.addEventListener('visibilitychange', $.proxy(this.handleVisibilityChange, this));
+        document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
 
         window.addEventListener('escape-game.start', (e) => { this.ask();     }, false);
         window.addEventListener('escape-game.end',   (e) => { this.release(); }, false);

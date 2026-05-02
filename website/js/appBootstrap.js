@@ -253,7 +253,7 @@ class AppBootstrap {
     }
 
     runLauncher(launcher) {
-        $('#progressBarContainer').remove();
+        document.getElementById('progressBarContainer').remove();
         launcher.start();
         if (this.pwaMode) {
             this.serviceWorker.active.postMessage("askStats");

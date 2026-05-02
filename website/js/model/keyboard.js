@@ -61,33 +61,39 @@ class Keyboard {
         this.allowZeroFirst = allowZeroFirst;
         this.value = '';
 
-        this.overlay = $('<div class="overlay"></div>');
-        this.display.screen.append(this.overlay);
+        this.overlay = document.createElement('div');
+        this.overlay.className = 'overlay';
+        this.display.screen.appendChild(this.overlay);
 
         let width = 675;
         let height = width * 1270 / 1010;
 
         this.sprite = new Sprite(new Size(width, height), new Position((this.display.width - width) / 2, this.display.height - 50 - height));
-        this.sprite.htmlTag = $('<div class="sprite keyboard"></div>');
+        this.sprite.htmlTag = document.createElement('div');
+        this.sprite.htmlTag.className = 'sprite keyboard';
         this.display.resource.applyImage(this.sprite.htmlTag, this.imageBackground);
-        this.sprite.htmlTag.append($('<div class="keyboard-screen"></div>'));
+
+        const screenDiv = document.createElement('div');
+        screenDiv.className = 'keyboard-screen';
+        this.sprite.htmlTag.appendChild(screenDiv);
+
         this.display.addSprite(this.sprite);
 
         this.buttons[0]  = this.createCloseButton();
-        this.buttons[1]  = this.createKey(this.imageButtonNumber,  '1',  0, 0, $.proxy(function() { this.addDigit('1'); }, this));
-        this.buttons[2]  = this.createKey(this.imageButtonNumber,  '2',  1, 0, $.proxy(function() { this.addDigit('2'); }, this));
-        this.buttons[3]  = this.createKey(this.imageButtonNumber,  '3',  2, 0, $.proxy(function() { this.addDigit('3'); }, this));
-        this.buttons[4]  = this.createKey(this.imageButtonNumber,  '4',  0, 1, $.proxy(function() { this.addDigit('4'); }, this));
-        this.buttons[5]  = this.createKey(this.imageButtonNumber,  '5',  1, 1, $.proxy(function() { this.addDigit('5'); }, this));
-        this.buttons[6]  = this.createKey(this.imageButtonNumber,  '6',  2, 1, $.proxy(function() { this.addDigit('6'); }, this));
-        this.buttons[7]  = this.createKey(this.imageButtonNumber,  '7',  0, 2, $.proxy(function() { this.addDigit('7'); }, this));
-        this.buttons[8]  = this.createKey(this.imageButtonNumber,  '8',  1, 2, $.proxy(function() { this.addDigit('8'); }, this));
-        this.buttons[9]  = this.createKey(this.imageButtonNumber,  '9',  2, 2, $.proxy(function() { this.addDigit('9'); }, this));
-        this.buttons[10] = this.createKey(this.imageButtonCancel,  'C',  0, 3, $.proxy(function() { this.resetDigit();  }, this));
-        this.buttons[11] = this.createKey(this.imageButtonNumber,  '0',  1, 3, $.proxy(function() { this.addDigit('0'); }, this));
-        this.buttons[12] = this.createKey(this.imageButtonConfirm, 'OK', 2, 3, $.proxy(function() { this.sendValue(callback); }, this));
+        this.buttons[1]  = this.createKey(this.imageButtonNumber,  '1',  0, 0, () => { this.addDigit('1'); });
+        this.buttons[2]  = this.createKey(this.imageButtonNumber,  '2',  1, 0, () => { this.addDigit('2'); });
+        this.buttons[3]  = this.createKey(this.imageButtonNumber,  '3',  2, 0, () => { this.addDigit('3'); });
+        this.buttons[4]  = this.createKey(this.imageButtonNumber,  '4',  0, 1, () => { this.addDigit('4'); });
+        this.buttons[5]  = this.createKey(this.imageButtonNumber,  '5',  1, 1, () => { this.addDigit('5'); });
+        this.buttons[6]  = this.createKey(this.imageButtonNumber,  '6',  2, 1, () => { this.addDigit('6'); });
+        this.buttons[7]  = this.createKey(this.imageButtonNumber,  '7',  0, 2, () => { this.addDigit('7'); });
+        this.buttons[8]  = this.createKey(this.imageButtonNumber,  '8',  1, 2, () => { this.addDigit('8'); });
+        this.buttons[9]  = this.createKey(this.imageButtonNumber,  '9',  2, 2, () => { this.addDigit('9'); });
+        this.buttons[10] = this.createKey(this.imageButtonCancel,  'C',  0, 3, () => { this.resetDigit();  });
+        this.buttons[11] = this.createKey(this.imageButtonNumber,  '0',  1, 3, () => { this.addDigit('0'); });
+        this.buttons[12] = this.createKey(this.imageButtonConfirm, 'OK', 2, 3, () => { this.sendValue(callback); });
 
-        this.buttons[0].htmlTag.on('click', $.proxy(function() { this.close(); }, this));
+        this.buttons[0].htmlTag.addEventListener('click', () => { this.close(); });
 
         this.updateZeroButton();
     }
@@ -128,7 +134,7 @@ class Keyboard {
     }
 
     updateValue() {
-        this.sprite.htmlTag.find('.keyboard-screen').first().text(this.value);
+        this.sprite.htmlTag.querySelector('.keyboard-screen').textContent = this.value;
         this.updateZeroButton();
     }
 
@@ -165,7 +171,7 @@ class Keyboard {
      * @param {int}      y
      * @param {function} callback
      */
-    createKey(image, text, x, y, callback ) {
+    createKey(image, text, x, y, callback) {
         let size = 130;
         let delta = 20;
 
@@ -180,9 +186,9 @@ class Keyboard {
 
         this.display.addButton(btn);
 
-        btn.htmlTag.text(text);
-        btn.htmlTag.css('font-size', '150%');
-        btn.htmlTag.on('click', callback);
+        btn.htmlTag.textContent = text;
+        btn.htmlTag.style.fontSize = '150%';
+        btn.htmlTag.addEventListener('click', callback);
 
         return btn;
     }
