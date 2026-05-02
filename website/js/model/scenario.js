@@ -1,6 +1,8 @@
 class Scenario {
     /** @type {string}      */ code;
     /** @type {string}      */ name;
+    /** @type {int}         */ duration;
+    /** @type {string}      */ description;
     /** @type {string}      */ backgroundModalParameters;
     /** @type {string}      */ backgroundModalText;
     /** @type {string|null} */ soundClick;
@@ -31,10 +33,14 @@ class Scenario {
     /**
      * @param {string} code
      * @param {string} name
+     * @param {int}    duration
+     * @param {string} description
      */
-    constructor(code, name) {
-        this.code = code;
-        this.name = name;
+    constructor(code, name, duration, description) {
+        this.code        = code;
+        this.name        = name;
+        this.duration    = duration;
+        this.description = description;
         this.images       = [];
         this.sounds       = [];
         this.helps        = [];

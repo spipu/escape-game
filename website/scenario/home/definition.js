@@ -1,6 +1,11 @@
 class ScenarioHome extends Scenario {
     constructor() {
-        super('home', 'Home');
+        super(
+            'home',
+            'Home',
+            30,
+            'Échappez-vous de cet appartement mystérieux.'
+        );
     }
 
     addResources() {

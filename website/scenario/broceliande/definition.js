@@ -1,6 +1,11 @@
 class ScenarioBroceliande extends Scenario {
     constructor() {
-        super('broceliande', 'Les légendes de la forêt de Brocéliande');
+        super(
+            'broceliande',
+            'Les légendes de la forêt de Brocéliande',
+            45,
+            'Percez les secrets de la forêt enchantée.'
+        );
     }
 
     addResources() {

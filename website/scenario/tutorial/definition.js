@@ -1,6 +1,11 @@
 class ScenarioTutorial extends Scenario {
     constructor() {
-        super('tutorial', 'Tutoriel');
+        super(
+            'tutorial',
+            'Tutoriel',
+            10,
+            'Initiez-vous aux mécaniques du jeu.'
+        );
     }
 
     addResources() {
