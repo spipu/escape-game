@@ -8,6 +8,14 @@ Vous devez :
 * configurer un virtualhost pour qu'il pointe vers ce répertoire.
 * y accéder depuis votre navigateur internet, à partir de votre ordinateur ou de votre smartphone.
 
+Pour tester en local, depuis la racine du dépôt :
+
+```
+python3 -m http.server 8080 --directory website
+```
+
+Puis ouvrir http://localhost:8080/ (`localhost` est un contexte sécurisé : le Service Worker y fonctionne sans HTTPS).
+
 Vous pouvez également rajouter le site sur votre écran d'accueil de votre smartphone
 pour l'installer comme une vraie application. 
 
