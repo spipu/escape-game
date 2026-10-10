@@ -7,16 +7,16 @@ class AppServiceWorker {
     /** @type {string}            */ version = "v1";
     /** @type {string[]}          */ files = [
         "/",
-        "/js/appBootstrap.js",
-        "/js/appVersion.json",
-        "/css/main.css"
+        "/js/webapp/appBootstrap.js",
+        "/css/main.css",
+        "/manifest.webmanifest"
     ];
 
     /**
      * @param {WorkerGlobalScope} serviceWorker
      */
     constructor(serviceWorker) {
-        this.serviceWorker = serviceWorker;
+        this.serviceWorker    = serviceWorker;
         this.statsFetchTotal  = 0;
         this.statsFetchServer = 0;
         this.statsFetchCache  = 0;
@@ -34,13 +34,15 @@ class AppServiceWorker {
     }
 
     activate(event) {
+        // Without claim(), the page that registered this worker stays uncontrolled until its next load.
+        event.waitUntil(this.serviceWorker.clients.claim());
     }
 
     message(event) {
         let eventCode = event.data;
         switch (eventCode) {
             case 'clearCache':
-                this.clearCache();
+                event.waitUntil(this.clearCache());
                 break;
 
             case 'resetStats':
@@ -84,7 +86,7 @@ class AppServiceWorker {
     async loadNewVersion() {
         this.logDebug(`Loading Version`);
 
-        let cache = await caches.open(this.version)
+        let cache = await caches.open(this.version);
         let urls = this.files;
 
         const requests = urls.map((url) => new Request(url, {cache: 'no-store'}));
@@ -94,13 +96,20 @@ class AppServiceWorker {
     async deleteOldVersions() {
         let keys = await caches.keys();
 
-        keys.map(key => {
-            this.logDebug(`Deleting version ${key}`);
-            caches.delete(key);
-        });
+        await Promise.all(
+            keys.map(key => {
+                this.logDebug(`Deleting version ${key}`);
+                return caches.delete(key);
+            })
+        );
     }
 
     fetch(event) {
+        if (event.request.url.indexOf('swBypass=1') !== -1) {
+            event.respondWith(fetch(event.request));
+            return;
+        }
+
         event.respondWith(
             caches
                 .match(event.request)
@@ -109,21 +118,22 @@ class AppServiceWorker {
                         this.statsFetchTotal++;
 
                         if (cached) {
-                            this.statsFetchCache++
+                            this.statsFetchCache++;
                             return cached;
                         }
 
                         this.logDebug('Get from server', event.request.url);
-                        this.statsFetchServer++
+                        this.statsFetchServer++;
                         return fetch(event.request, {cache: "no-store"})
+                            .then(response => this.putInCache(event.request, response).then(() => response));
                     })
-                .then(response => this.cache(event.request, response).then(() => response))
         );
     }
 
-    async cache(request, response) {
-        if (response.type === "error" || response.type === "opaque") {
-            return Promise.resolve();
+    async putInCache(request, response) {
+        // A cached HTTP error would be served until the next version bump; ok is also false for error/opaque types.
+        if (!response.ok) {
+            return;
         }
 
         return caches
@@ -146,5 +156,5 @@ class AppServiceWorker {
     }
 }
 
-let appServiceWorker =  new AppServiceWorker(self);
+let appServiceWorker = new AppServiceWorker(self);
 appServiceWorker.initListeners();

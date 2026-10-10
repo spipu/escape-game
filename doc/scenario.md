@@ -10,11 +10,12 @@ Pour créer un nouveau scénario `Exemple`, vous devez :
 * mettre les images dans `./website/scenario/example/image/` (ou utiliser les assets par défaut avec `useDefault = true`)
 * mettre les sons dans `./website/scenario/example/sound/` (idem)
 * créer le fichier de définition `./website/scenario/example/definition.js`
-* ajouter le fichier JS dans `./website/js/appVersion.json` (section `js`, en fin de liste) et incrémenter la version
-* ajouter `.addScenario(new ScenarioExample())` dans `AppBootstrap.loadLauncher()`
+* ajouter le fichier JS dans `./website/js/libBootstrap.json` (section `js`, avant `/js/main.js`)
+* ajouter les images et les sons du scénario dans `./website/js/libBootstrap.json` (section `assets`) : tout y est préchargé, pour que le jeu fonctionne ensuite hors ligne
+* ajouter `.addScenario(new ScenarioExample())` dans `loadApp()` de `./website/js/main.js`
 
 ***ATTENTION*** : n'utilisez que des images et des sons libres de droit.  
-***ATTENTION*** : à chaque modification du code ou des assets, **incrémentez la version** dans `appVersion.json`.
+***ATTENTION*** : à chaque modification du code ou des assets, **incrémentez la version** dans `js/libBootstrap.json`.
 
 ---
 
