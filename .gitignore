@@ -1,3 +1,6 @@
 /.idea
 /.claude
 /.report
+/.tmp.claude
+/.source
+/log
