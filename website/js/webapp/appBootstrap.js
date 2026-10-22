@@ -160,6 +160,22 @@ class AppBootstrap {
         return url + '?v=' + encodeURIComponent(this.getVersion());
     }
 
+    /**
+     * The response of a file of the application, rejected unless it is OK.
+     */
+    async fetchAsync(url) {
+        const response = await fetch(this.buildUrl(url));
+        if (!response.ok) {
+            throw new Error('HTTP ' + response.status + ' on ' + url);
+        }
+
+        return response;
+    }
+
+    async fetchJsonAsync(url) {
+        return (await this.fetchAsync(url)).json();
+    }
+
     fetchJson(url, callback) {
         fetch(this.buildUrl(url))
             .then(response => {
