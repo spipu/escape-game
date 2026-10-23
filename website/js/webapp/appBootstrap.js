@@ -260,10 +260,6 @@ class AppBootstrap {
         this.stats = stats;
     }
 
-    getStats() {
-        return this.stats;
-    }
-
     /**
      * @param {function(int): string} formatSize - the weight of the application, from its bytes
      */
@@ -278,12 +274,12 @@ class AppBootstrap {
             return mode + ' - no stats';
         }
 
-        return mode + ' - server: ' + AppBootstrap.fileCount(this.stats.serverFiles ?? 0)
-            + ' | cache: ' + AppBootstrap.fileCount(this.stats.cacheFiles ?? 0)
+        return mode + ' - server: ' + AppBootstrap.fileCountText(this.stats.serverFiles ?? 0)
+            + ' | cache: ' + AppBootstrap.fileCountText(this.stats.cacheFiles ?? 0)
             + ' | size: ' + formatSize(this.stats.appBytes ?? 0);
     }
 
-    static fileCount(count) {
+    static fileCountText(count) {
         return count + ((count > 1) ? ' files' : ' file');
     }
 
