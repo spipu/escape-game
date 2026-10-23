@@ -3,6 +3,7 @@ class AppServiceWorker {
     /** @type {int}               */ statsFetchTotal;
     /** @type {int}               */ statsFetchServer;
     /** @type {int}               */ statsFetchCache;
+    /** @type {Map<string, int>}  */ statsServerFiles;
     /** @type {boolean}           */ debugEnabled = false;
     /** @type {string}            */ version = "v1";
     /** @type {string[]}          */ files = [
@@ -20,6 +21,7 @@ class AppServiceWorker {
         this.statsFetchTotal  = 0;
         this.statsFetchServer = 0;
         this.statsFetchCache  = 0;
+        this.statsServerFiles = new Map();
     }
 
     initListeners() {
@@ -50,7 +52,7 @@ class AppServiceWorker {
                 break;
 
             case 'askStats':
-                this.askStats();
+                event.waitUntil(this.askStats());
                 break;
 
             default:
@@ -62,17 +64,50 @@ class AppServiceWorker {
         this.statsFetchTotal  = 0;
         this.statsFetchServer = 0;
         this.statsFetchCache  = 0;
+        this.statsServerFiles.clear();
     }
 
-    askStats() {
+    // The weight of the application: what the cache holds, plus what came from the server to go in it and is not
+    // there yet — each file once. The requests that bypass the cache (version check, a downloaded data file) are
+    // never part of it.
+    async askStats() {
+        const sizes = new Map();
+        for (const name of await caches.keys()) {
+            const cache = await caches.open(name);
+            for (const request of await cache.keys()) {
+                const response = await cache.match(request);
+                sizes.set(request.url, (await response.blob()).size);
+            }
+        }
+        const cacheFiles = sizes.size;
+        for (const [url, size] of this.statsServerFiles) {
+            if (!sizes.has(url)) {
+                sizes.set(url, size);
+            }
+        }
+        let bytes = 0;
+        for (const size of sizes.values()) {
+            bytes += size;
+        }
         this.triggerEvent(
             'statsAsked',
             {
                 'fetchTotal':  this.statsFetchTotal,
                 'fetchServer': this.statsFetchServer,
                 'fetchCache':  this.statsFetchCache,
+                'serverFiles': this.statsServerFiles.size,
+                'cacheFiles':  cacheFiles,
+                'appBytes':    bytes,
             }
         );
+    }
+
+    // Only a response that goes to the cache: an HTTP error never does.
+    async recordServerFile(url, response) {
+        if (!response.ok) {
+            return;
+        }
+        this.statsServerFiles.set(url, (await response.clone().blob()).size);
     }
 
     async clearCache() {
@@ -125,7 +160,10 @@ class AppServiceWorker {
                         this.logDebug('Get from server', event.request.url);
                         this.statsFetchServer++;
                         return fetch(event.request, {cache: "no-store"})
-                            .then(response => this.putInCache(event.request, response).then(() => response));
+                            .then(response => Promise.all([
+                                this.recordServerFile(event.request.url, response),
+                                this.putInCache(event.request, response)
+                            ]).then(() => response));
                     })
         );
     }

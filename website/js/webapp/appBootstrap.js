@@ -264,18 +264,31 @@ class AppBootstrap {
         return this.stats;
     }
 
-    getStatsText() {
-        const mode = ((this.pwaMode) ? 'PWA' : 'Classic') + ((this.offline) ? ' Offline' : '');
+    /**
+     * @param {function(int): string} formatSize - the weight of the application, from its bytes
+     */
+    getStatsText(formatSize = AppBootstrap.formatMegabytes) {
+        const mode = '[' + ((this.pwaMode) ? 'PWA' : 'Classic') + ((this.offline) ? ' Offline' : '') + ']';
 
         if (!this.pwaMode) {
-            return '[' + mode + ']';
+            return mode;
         }
 
         if (this.stats === null) {
-            return '[' + mode + '] no stats';
+            return mode + ' - no stats';
         }
 
-        return '[' + mode + '] queries: ' + this.stats.fetchTotal + ' | server: ' + this.stats.fetchServer + ' | cache: ' + this.stats.fetchCache;
+        return mode + ' - server: ' + AppBootstrap.fileCount(this.stats.serverFiles ?? 0)
+            + ' | cache: ' + AppBootstrap.fileCount(this.stats.cacheFiles ?? 0)
+            + ' | size: ' + formatSize(this.stats.appBytes ?? 0);
+    }
+
+    static fileCount(count) {
+        return count + ((count > 1) ? ' files' : ' file');
+    }
+
+    static formatMegabytes(bytes) {
+        return (bytes / 1048576).toFixed(2) + ' MB';
     }
 
     async checkVersion() {
