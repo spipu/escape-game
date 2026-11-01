@@ -1,5 +1,5 @@
 {
-    "version": "v1.85",
+    "version": "v1.86",
     "files": {
         "assets": [
             "/lib/fontawesome/webfonts/fa-brands-400.ttf",
@@ -123,6 +123,7 @@
             "/js/service/game.js",
             "/js/service/launcher.js",
             "/js/webapp/screenWakeLock.js",
+            "/js/webapp/appPlatform.js",
             "/js/machine/abstractMachine.js",
             "/js/machine/machineConnector.js",
             "/js/machine/machineDigicode.js",
